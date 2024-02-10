@@ -1,0 +1,44 @@
+require("./db")
+const express = require('express');
+const cron = require('node-cron');
+var bodyParser = require("body-parser");
+const app = express();
+const PORT = 3000;
+const { uploadToRevivingSoulz } = require('./uploaders/mediaHandlers/revivingSoulz');
+const { generateFbUserToken } = require("./controllers/generateFbUserToken");
+const { checkAndRefreshTokens } = require("./0Authtokens/revivingSoulz/refreshSoulz");
+
+// Google Drive API configuration
+app.use(
+  bodyParser.urlencoded({
+    extended: true,
+  })
+);
+app.use(bodyParser.json());
+cron.schedule('22 21 * * *', async () => {
+  await uploadToRevivingSoulz()
+});
+
+cron.schedule('35 2 19 * * *', async () => {
+  await uploadToRevivingSoulz()
+});
+
+
+//token generators
+cron.schedule('0 0 10 * *', async () => {
+  await generateFbUserToken("f4b3d6ab886f041f78d5b8cc11c0f7d5", 693336926299891, "revivingSoulz")
+});
+checkAndRefreshTokens()
+
+// Start the Express server
+app.get('/', (req, res) => {
+  res.send('Hello, this is your Express server!');
+});
+
+
+app.use('/api', require("./routes/index"));
+app.listen(PORT, () => {
+  console.log(`Server is running on http://localhost:${PORT}`);
+});
+
+
