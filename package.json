@@ -23,7 +23,6 @@
     "fluent-ffmpeg": "^2.1.2",
     "google-auth-library": "^9.6.1",
     "googleapis": "^105.0.0",
-    "instagram-private-api": "^1.45.3",
     "mongoose": "^8.1.1",
     "node-cron": "^3.0.3",
     "nodemon": "^3.0.3",
@@ -33,7 +32,7 @@
     "util": "^0.12.5"
   },
   "optionalDependencies": {
-    "@img/sharp-win32-x64": "^0.33.2",
-    "@img/sharp-linux-arm": "^0.33.2"
+    "@img/sharp-linux-arm": "^0.33.2",
+    "@img/sharp-win32-x64": "^0.33.2"
   }
 }
