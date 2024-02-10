@@ -31,5 +31,9 @@
     "sharp": "^0.33.2",
     "stream": "^0.0.2",
     "util": "^0.12.5"
+  },
+  "optionalDependencies": {
+    "@img/sharp-win32-x64": "^0.33.2",
+    "@img/sharp-linux-arm": "^0.33.2"
   }
 }
