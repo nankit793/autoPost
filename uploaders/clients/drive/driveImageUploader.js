@@ -1,5 +1,5 @@
 const { google } = require('googleapis');
-const sharp = require('sharp');
+// const sharp = require('sharp');
 const stream = require('stream');
 const { downloadMedia } = require('./driveVideoUploader');
 
@@ -8,8 +8,8 @@ const uploadImageToDrive = async (url, drive) => {
 
   try {
     const imageBuffer = await downloadMedia(url);
-    const jpegBuffer = await convertToJpeg(imageBuffer);
-    const fileIdOnDrive = await uploadToDrive(jpegBuffer, drive);
+    // const jpegBuffer = await convertToJpeg(imageBuffer);
+    const fileIdOnDrive = await uploadToDrive(imageBuffer, drive);
 
     return fileIdOnDrive
 
@@ -19,15 +19,15 @@ const uploadImageToDrive = async (url, drive) => {
   }
 };
 
-async function convertToJpeg(imageBuffer) {
-  try {
+// async function convertToJpeg(imageBuffer) {
+//   try {
 
-    return await sharp(imageBuffer).jpeg().toBuffer();
-  } catch (error) {
-    console.error('Error converting image to JPEG:', error);
-    throw error;
-  }
-}
+//     return await sharp(imageBuffer).jpeg().toBuffer();
+//   } catch (error) {
+//     console.error('Error converting image to JPEG:', error);
+//     throw error;
+//   }
+// }
 
 async function uploadToDrive(imageBuffer, drive) {
   try {

@@ -27,12 +27,7 @@
     "node-cron": "^3.0.3",
     "nodemon": "^3.0.3",
     "reqeust": "^2.81.1",
-    "sharp": "^0.33.2",
     "stream": "^0.0.2",
     "util": "^0.12.5"
-  },
-  "optionalDependencies": {
-    "@img/sharp-linux-arm": "^0.33.2",
-    "@img/sharp-win32-x64": "^0.33.2"
   }
 }
