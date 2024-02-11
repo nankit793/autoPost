@@ -15,6 +15,7 @@ const revivingSoluzInsta = async (notUploadedUrls) => {
     const result = notUploadedUrls.find((url) => {
         return !url.uploadedToInstagram
     });
+
     if (result) {
         const fileIdOnDrive = result?.driveFileId;
         const downloadURL = `https://drive.usercontent.google.com/u/2/uc?id=${fileIdOnDrive}`
@@ -37,7 +38,7 @@ const revivingSoluzFB = async (notUploadedUrls) => {
 
     if (result) {
         const fileIdOnDrive = result?.driveFileId;
-        let pageAccessToken = "EAAJ2lhUzpvMBOZBmcfROjmGDeS3m2FMKsbrgurEMDu3aR22Ou8aRfqV8UaUZCNUgazRh45FpcZBcTPOmob2OD3cZCRoNKMZA4ZA444PjfexVJZBrWwZBRIxcM0KoVeUOI3efZAev0Skn8WlmtduW54StijNAfb6PwFbBYZBS7hj4bEav8ZALNYZBjKzemawab9MNhlTbhpZAZBqPvrUGLXZAKVp4JskQGPGqx3pQr1NrXZCHCNAZD"
+        let pageAccessToken = "EAAJ2lhUzpvMBO0RBGhgXvDPcyyNJTMJTjUBQJZAmC2OBmHGGYYM3YYZC4Wn3ztmypY7FN2HaLm2s9mqZCXLhbYcLLJuZBwjYrm7121fLbBCSNbxvewiQVZBeaoqjFBOvEA5ZASi2LX6F4THNu9mn4nfZAcyB7C23bbyZAcpq12o5z7xNI5haxhvVNWtSdjfUpHVh5XH4nwAZA0UudnnQ7rd040yrd2MrbXIKyfAm9g2MZD"
 
         if (result?.isImage) {
             let url = `https://graph.facebook.com/v19.0/201428166395003/photos?url=https://drive.usercontent.google.com/u/2/uc?id=${fileIdOnDrive}&access_token=${pageAccessToken}`

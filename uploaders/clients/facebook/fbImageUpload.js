@@ -8,6 +8,7 @@ const fbImageUplaod = async (dbDoc, url) => {
 
             dbDoc.uploadedToFb = true
             await dbDoc.save()
+            console.log("uploaded to fb")
             return { state: true };
         })
             .catch(error => {

@@ -15,11 +15,11 @@ app.use(
   })
 );
 app.use(bodyParser.json());
-cron.schedule('20 22 * * *', async () => {
+cron.schedule('0 22 * * *', async () => {
   await uploadToRevivingSoulz()
 });
 
-cron.schedule('0 12 * * *', async () => {
+cron.schedule('0 11 * * *', async () => {
   await uploadToRevivingSoulz()
 });
 

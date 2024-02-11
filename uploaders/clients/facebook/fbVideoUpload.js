@@ -30,9 +30,11 @@ const fbVideoUpload = async (fbPageID, pageAccessToken, file_url, description, t
         //update mongo
         dbDoc.uploadedToFb = true
         await dbDoc.save()
+        console.log("uploaded to fb")
         return { state: true };
 
     } catch (error) {
+        console.log(error)
         return { state: false }
     }
 }
