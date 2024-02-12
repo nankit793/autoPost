@@ -11,7 +11,7 @@ const credentials = require('./credentials.json');
 const { client_secret, client_id, redirect_uris } = credentials.web;
 
 const oAuth2Client = new google.auth.OAuth2(client_id, client_secret, "https://autopost-61a4.onrender.com/") //for production
-// const oAuth2Client = new google.auth.OAuth2(client_id, client_secret, "http://localhost:3000/" ) #for development
+// const oAuth2Client = new google.auth.OAuth2(client_id, client_secret, "http://localhost:3000/") //for development
 async function checkAndRefreshTokens() {
     try {
         if (!fs.existsSync(TOKEN_PATH)) {

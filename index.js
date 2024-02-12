@@ -14,7 +14,8 @@ app.use(
   })
 );
 app.use(bodyParser.json());
-cron.schedule('0 22 * * *', async () => {
+cron.schedule('15 22 * * *', async () => {
+  console.log("entered the process")
   await uploadToRevivingSoulz()
 });
 
