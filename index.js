@@ -18,7 +18,7 @@ cron.schedule('0 22 * * *', async () => {
   await uploadToRevivingSoulz()
 });
 
-cron.schedule('25 21 * * *', async () => {
+cron.schedule('0 11 * * *', async () => {
   await uploadToRevivingSoulz()
 });
 
