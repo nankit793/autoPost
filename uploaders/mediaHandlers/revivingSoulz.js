@@ -38,7 +38,7 @@ const revivingSoluzFB = async (notUploadedUrls) => {
 
     if (result) {
         const fileIdOnDrive = result?.driveFileId;
-        let pageAccessToken = "EAAJ2lhUzpvMBO0RBGhgXvDPcyyNJTMJTjUBQJZAmC2OBmHGGYYM3YYZC4Wn3ztmypY7FN2HaLm2s9mqZCXLhbYcLLJuZBwjYrm7121fLbBCSNbxvewiQVZBeaoqjFBOvEA5ZASi2LX6F4THNu9mn4nfZAcyB7C23bbyZAcpq12o5z7xNI5haxhvVNWtSdjfUpHVh5XH4nwAZA0UudnnQ7rd040yrd2MrbXIKyfAm9g2MZD"
+        let pageAccessToken = "EAAJ2lhUzpvMBOxUp0sM9ojxxX5JOU7OXulSH3LdXkLVuNYLro973EPZBqVzZCy6MhbbX3OLFOXERY0GpdiV7gRIUvsuJ3sm0w7OK1QKDdoTaLD82yMTmP7NHgCAC1LxCd3Pk0flHE0JYA2eKYW6DjzIb6PT9wmZB5NNGUkvZAxxJJwxbJT1pWzngIXoYqq2SKPTufs7f4nnqAuAZD"
 
         if (result?.isImage) {
             let url = `https://graph.facebook.com/v19.0/201428166395003/photos?url=https://drive.usercontent.google.com/u/2/uc?id=${fileIdOnDrive}&access_token=${pageAccessToken}`

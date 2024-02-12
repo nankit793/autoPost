@@ -6,7 +6,6 @@ const app = express();
 const PORT = 3000;
 const { uploadToRevivingSoulz } = require('./uploaders/mediaHandlers/revivingSoulz');
 const { generateFbUserToken } = require("./controllers/generateFbUserToken");
-const { checkAndRefreshTokens } = require("./0Authtokens/revivingSoulz/refreshSoulz");
 
 // Google Drive API configuration
 app.use(
@@ -19,7 +18,7 @@ cron.schedule('0 22 * * *', async () => {
   await uploadToRevivingSoulz()
 });
 
-cron.schedule('0 11 * * *', async () => {
+cron.schedule('25 21 * * *', async () => {
   await uploadToRevivingSoulz()
 });
 
@@ -37,7 +36,7 @@ app.get('/', (req, res) => {
 
 app.use('/api', require("./routes/index"));
 app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+  console.log(`Server is running`);
 });
 
 
