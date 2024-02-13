@@ -34,7 +34,7 @@ const fbVideoUpload = async (fbPageID, pageAccessToken, file_url, description, t
         return { state: true };
 
     } catch (error) {
-        console.log(error)
+        console.log(error.message)
         return { state: false }
     }
 }

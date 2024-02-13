@@ -1,6 +1,6 @@
 const express = require('express');
 const URLmodel = require('../../models/revivingSoluz/URLmodel');
-const { checkAndRefreshTokens } = require('../../0Authtokens/revivingSoulz/refreshSoulz');
+const { checkAndRefreshUserTokens } = require('../../0Authtokens/revivingSoulz/refreshSoulz');
 const { google } = require('googleapis');
 const { checkReqs } = require('../../controllers/urlValidator');
 const { processUrlRequest } = require("../../controllers/procssUrlRequest")
@@ -14,11 +14,11 @@ app.post('/addURL', async (req, res) => {
   }
 
   try {
-    const { oAuth2Client } = await checkAndRefreshTokens()
+    const { oAuth2Client } = await checkAndRefreshUserTokens()
     const drive = google.drive({ version: 'v3', auth: oAuth2Client });
     const params = { mediaLinks, isFb, isInstagram, isYoutube, isImage, isReel, uploadedToYoutube, downURL, URLmodel, drive }
     const processReq = await processUrlRequest(params)
-    console.log(processReq)
+
     if (processReq && processReq.state && processReq.newUrl) {
       return res.status(201).json({ message: 'URL added successfully', doc: processReq.newUrl });
     }

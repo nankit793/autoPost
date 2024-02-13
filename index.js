@@ -5,7 +5,7 @@ var bodyParser = require("body-parser");
 const app = express();
 const PORT = 3000;
 const { uploadToRevivingSoulz } = require('./uploaders/mediaHandlers/revivingSoulz');
-const { generateFbUserToken } = require("./controllers/generateFbUserToken");
+const { generateFbUserToken } = require("./controllers/tokens/generateFbUserToken");
 
 // Google Drive API configuration
 app.use(
@@ -14,8 +14,10 @@ app.use(
   })
 );
 app.use(bodyParser.json());
+
 const indianTimezone = 'Asia/Kolkata';
-cron.schedule('30 22 * * *', async () => {
+
+cron.schedule('35 50 14 * * *', async () => {
   console.log("entered the process")
   await uploadToRevivingSoulz()
 }, {
@@ -27,6 +29,7 @@ cron.schedule('0 11 * * *', async () => {
 }, {
   timezone: indianTimezone
 });
+
 
 
 //token generators
@@ -44,7 +47,6 @@ app.get('/', (req, res) => {
 
 app.use('/api', require("./routes/index"));
 app.listen(PORT, () => {
-
   console.log(`Server is running`);
 });
 

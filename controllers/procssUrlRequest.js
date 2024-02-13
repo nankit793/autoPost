@@ -4,7 +4,7 @@ const { uploadtVideoToDrive } = require("../uploaders/clients/drive/driveVideoUp
 const processUrlRequest = async (params) => {
     try {
         const { mediaLinks, isFb, isInstagram, isYoutube, isImage, isReel, uploadedToYoutube, downURL, URLmodel, drive } = params
-        console.log(isInstagram)
+
         let driveFileId;
         if (isImage) {
             uploadedToYoutube = true;
@@ -24,7 +24,7 @@ const processUrlRequest = async (params) => {
             driveFileId,
             uploadedToYoutube
         });
-        console.log(newUrl)
+
         await newUrl.save();
 
         return { state: true, newUrl }

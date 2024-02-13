@@ -6,11 +6,14 @@ const { uploadShorts } = require("../clients/youtube/uploadShorts");
 const { checkAndRefreshTokens } = require("../../0Authtokens/revivingSoulz/refreshSoulz");
 const { google } = require("googleapis");
 const { fbVideoUpload } = require("../clients/facebook/fbVideoUpload");
-const { returnFbAccessToken } = require("../../controllers/returnFbUserToken");
+const { returnFbAccessToken } = require("../../controllers/tokens/returnFbUserToken");
 
 const revivingSoluzInsta = async (notUploadedUrls) => {
     const { token } = await returnFbAccessToken("revivingSoulz")
     let accessToken = token;
+    if (!token) {
+        return result.status(401).json({ state: false, message: "fb user token not valid, or not given" })
+    }
     const baseURL = "https://graph.facebook.com/v19.0/17841464678870993/media"
     const result = notUploadedUrls.find((url) => {
         return !url.uploadedToInstagram
@@ -61,7 +64,7 @@ const revivingSoulzYT = async (notUploadedUrls) => {
         const videoUrl = `https://drive.usercontent.google.com/u/2/uc?id=${fileIdOnDrive}`
         const { oAuth2Client } = await checkAndRefreshTokens()
         const youtubeClient = google.youtube({ version: 'v3', auth: oAuth2Client });
-        await uploadShorts(videoUrl, "uploaders/clients/youtube/youtubeMedia/revivingSoulz", youtubeClient, result)
+        await uploadShorts(videoUrl, "./uploaders/clients/youtube/youtubeMedia/revivingSoulz", youtubeClient, result)
     }
 
 }
@@ -75,9 +78,9 @@ const uploadToRevivingSoulz = async () => {
             ]
         });
 
-        await revivingSoluzInsta(notUploadedUrls)
         await revivingSoulzYT(notUploadedUrls)
         await revivingSoluzFB(notUploadedUrls)
+        await revivingSoluzInsta(notUploadedUrls)
 
     } catch (error) {
         console.log(error)

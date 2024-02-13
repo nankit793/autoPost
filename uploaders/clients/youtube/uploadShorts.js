@@ -56,7 +56,7 @@ function trimVideoIfNeeded(mediaFilePath, youtubeClient, dbDoc) {
         })
         .on('error', (err) => {
             console.error('Error trimming video:', err);
-            uploadVideoToYouTube(inputFilePath, youtubeClient, mediaFilePath)
+            uploadVideoToYouTube(inputFilePath, youtubeClient, mediaFilePath, dbDoc)
         })
         .run();
 }
