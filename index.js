@@ -23,7 +23,7 @@ cron.schedule('0 11 * * *', async () => {
   timezone: indianTimezone
 });
 
-cron.schedule('0 12 * * *', async () => {
+cron.schedule('0 22 * * *', async () => {
   await uploadToRevivingSoulz()
 }, {
   timezone: indianTimezone

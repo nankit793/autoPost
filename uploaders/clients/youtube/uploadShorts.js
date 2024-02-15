@@ -22,23 +22,28 @@ function deleteFolderContents(folderPath) {
 }
 
 async function downloadVideo(videoUrl, mediaFilePath) {
-    const outputPath = path.join(mediaFilePath, "downloaded.mp4");
+    try {
 
-    const response = await axios({
-        method: 'GET',
-        url: videoUrl,
-        responseType: 'stream',
-    });
+        const outputPath = path.join(mediaFilePath, "downloaded.mp4");
 
-    response.data.pipe(fs.createWriteStream(outputPath));
-    return new Promise((resolve, reject) => {
-        response.data.on('end', () => {
-            resolve();
+        const response = await axios({
+            method: 'GET',
+            url: videoUrl,
+            responseType: 'stream',
         });
-        response.data.on('error', (err) => {
-            reject(err);
+
+        response.data.pipe(fs.createWriteStream(outputPath));
+        return new Promise((resolve, reject) => {
+            response.data.on('end', () => {
+                resolve();
+            });
+            response.data.on('error', (err) => {
+                reject(err);
+            });
         });
-    });
+    } catch (error) {
+        throw error("bad URL")
+    }
 }
 
 // Function to trim the video to 60 seconds if it's longer
