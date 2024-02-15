@@ -7,6 +7,7 @@ const { checkAndRefreshTokens } = require("../../0Authtokens/revivingSoulz/refre
 const { google } = require("googleapis");
 const { fbVideoUpload } = require("../clients/facebook/fbVideoUpload");
 const { returnFbAccessToken } = require("../../controllers/tokens/returnFbUserToken");
+const path = require("path")
 
 const revivingSoluzInsta = async (notUploadedUrls) => {
     const { token } = await returnFbAccessToken("revivingSoulz")
@@ -64,7 +65,12 @@ const revivingSoulzYT = async (notUploadedUrls) => {
         const videoUrl = `https://drive.usercontent.google.com/u/2/uc?id=${fileIdOnDrive}`
         const { oAuth2Client } = await checkAndRefreshTokens()
         const youtubeClient = google.youtube({ version: 'v3', auth: oAuth2Client });
-        await uploadShorts(videoUrl, "./uploaders/clients/youtube/youtubeMedia/revivingSoulz", youtubeClient, result)
+
+        const currPath = path.join(__dirname);
+        const mediaFilePath = path.join(currPath, "../clients/youtube/youtubeMedia/revivingSoulz");
+
+        console.log(mediaFilePath)
+        await uploadShorts(videoUrl, mediaFilePath, youtubeClient, result)
     }
 
 }

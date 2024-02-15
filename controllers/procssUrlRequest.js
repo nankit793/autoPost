@@ -13,7 +13,7 @@ const processUrlRequest = async (params) => {
         else if (isReel) {
             driveFileId = await uploadtVideoToDrive(downURL, drive);
         }
-        console.log(driveFileId)
+
         const newUrl = new URLmodel({
             url: mediaLinks,
             isFb,
