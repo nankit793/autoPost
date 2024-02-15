@@ -1,6 +1,6 @@
 const express = require('express');
 const URLmodel = require('../../models/revivingSoluz/URLmodel');
-const { checkAndRefreshUserTokens } = require('../../0Authtokens/revivingSoulz/refreshSoulz');
+const { checkAndRefreshTokens } = require('../../0Authtokens/revivingSoulz/refreshSoulz');
 const { google } = require('googleapis');
 const { checkReqs } = require('../../controllers/urlValidator');
 const { processUrlRequest } = require("../../controllers/procssUrlRequest")
@@ -14,7 +14,7 @@ app.post('/addURL', async (req, res) => {
   }
 
   try {
-    const { oAuth2Client } = await checkAndRefreshUserTokens()
+    const { oAuth2Client } = await checkAndRefreshTokens()
     const drive = google.drive({ version: 'v3', auth: oAuth2Client });
     const params = { mediaLinks, isFb, isInstagram, isYoutube, isImage, isReel, uploadedToYoutube, downURL, URLmodel, drive }
     const processReq = await processUrlRequest(params)
@@ -32,13 +32,33 @@ app.post('/addURL', async (req, res) => {
 // Endpoint to remove URLs uploaded to every social media platform
 app.delete('/urls/delete', async (req, res) => {
   try {
-    const result = await URLmodel.deleteMany({
+    const documentsToDelete = await URLmodel.find({
+      uploadedToFb: true,
+      uploadedToInstagram: true,
+      uploadedToYoutube: true,
+    })
+
+    const results = await URLmodel.deleteMany({
       uploadedToFb: true,
       uploadedToInstagram: true,
       uploadedToYoutube: true,
     });
+    const { oAuth2Client } = await checkAndRefreshTokens()
+    const drive = google.drive({ version: 'v3', auth: oAuth2Client });
 
-    res.json({ message: `${result.deletedCount} URLs removed` });
+    console.log(documentsToDelete)
+    documentsToDelete.forEach((doc) => {
+      drive.files.delete({
+        fileId: doc.driveFileId
+      }, (err, res) => {
+        if (err) {
+          console.error('Error deleting file:', err);
+        } else {
+          console.log('File deleted:', fileId);
+        }
+      });
+    });
+    res.json({ message: `${results.deletedCount} URLs removed` });
   } catch (error) {
     console.error('Error removing URLs:', error);
     res.status(500).json({ error: 'Internal server error' });

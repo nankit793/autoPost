@@ -17,7 +17,13 @@ app.use(bodyParser.json());
 
 const indianTimezone = 'Asia/Kolkata';
 
-cron.schedule('0 11, 22 * * *', async () => {
+cron.schedule('0 11 * * *', async () => {
+  await uploadToRevivingSoulz()
+}, {
+  timezone: indianTimezone
+});
+
+cron.schedule('0 12 * * *', async () => {
   await uploadToRevivingSoulz()
 }, {
   timezone: indianTimezone
@@ -25,7 +31,13 @@ cron.schedule('0 11, 22 * * *', async () => {
 
 
 //token generators
-cron.schedule('0 0 10, 20 * *', async () => {
+cron.schedule('0 0 10 * *', async () => {
+  await generateFbUserToken("f4b3d6ab886f041f78d5b8cc11c0f7d5", 693336926299891, "revivingSoulz")
+}, {
+  timezone: indianTimezone
+});
+
+cron.schedule('0 0 20 * *', async () => {
   await generateFbUserToken("f4b3d6ab886f041f78d5b8cc11c0f7d5", 693336926299891, "revivingSoulz")
 }, {
   timezone: indianTimezone
