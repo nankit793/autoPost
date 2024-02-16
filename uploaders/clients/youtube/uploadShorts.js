@@ -31,7 +31,12 @@ async function downloadVideo(videoUrl, mediaFilePath) {
             url: videoUrl,
             responseType: 'stream',
         });
-
+        await fs.mkdir(mediaFilePath, { recursive: true }, (err) => {
+            if (err) {
+            } else {
+                console.log("folder created")
+            }
+        });
         response.data.pipe(fs.createWriteStream(outputPath));
         return new Promise((resolve, reject) => {
             response.data.on('end', () => {
@@ -42,7 +47,7 @@ async function downloadVideo(videoUrl, mediaFilePath) {
             });
         });
     } catch (error) {
-        throw error("bad URL")
+        throw error(error.message)
     }
 }
 
