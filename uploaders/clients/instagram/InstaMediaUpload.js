@@ -26,7 +26,7 @@ const publishMedia = async (IgID, responseID, accessToken, dbDoc) => {
                     .then(async (response) => {
                         if (response.status = 200 && response.data) {
                             clearInterval(interval)
-                            console.log(response.data, "published")
+                            console.log(response.data, "published at insta")
                             dbDoc.uploadedToInstagram = true
                             await dbDoc.save()
                             return { state: true };
