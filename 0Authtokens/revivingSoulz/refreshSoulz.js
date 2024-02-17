@@ -9,7 +9,7 @@ async function validateOauthRevivingSoulz() {
     try {
         const OAuthTokenDoc = await processAuthTokens("revivingSoulz", oAuth2Client)
         oAuth2Client.setCredentials(OAuthTokenDoc);
-
+        console.log(OAuthTokenDoc)
         return { tokens: OAuthTokenDoc, oAuth2Client };
     } catch (error) {
         console.error('Error refreshing tokens:', error);
