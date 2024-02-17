@@ -3,7 +3,7 @@ const UrlModelRevSoulz = require("../../models/revivingSoluz/URLmodel");
 const { fbImageUplaod } = require("../clients/facebook/fbImageUpload");
 const { instaMediaUploader } = require("../clients/instagram/InstaMediaUpload");
 const { uploadShorts } = require("../clients/youtube/uploadShorts");
-const { checkAndRefreshTokens } = require("../../0Authtokens/revivingSoulz/refreshSoulz");
+const { validateOauthRevivingSoulz } = require("../../0Authtokens/revivingSoulz/refreshSoulz");
 const { google } = require("googleapis");
 const { fbVideoUpload } = require("../clients/facebook/fbVideoUpload");
 const { returnFbAccessToken } = require("../../controllers/tokens/returnFbUserToken");
@@ -63,7 +63,7 @@ const revivingSoulzYT = async (notUploadedUrls) => {
     if (result) {
         const fileIdOnDrive = result?.driveFileId;
         const videoUrl = `https://drive.usercontent.google.com/u/2/uc?id=${fileIdOnDrive}`
-        const { oAuth2Client } = await checkAndRefreshTokens()
+        const { oAuth2Client } = await validateOauthRevivingSoulz()
         const youtubeClient = google.youtube({ version: 'v3', auth: oAuth2Client });
 
         const currPath = path.join(__dirname);
