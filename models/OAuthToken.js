@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const urlSchema = new mongoose.Schema({
+const tokenSchema = new mongoose.Schema({
     pageName: {
         type: String,
         required: true,
@@ -19,9 +19,17 @@ const urlSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    token_type: {
+        type: String,
+        required: true,
+    },
+    scope: {
+        type: String,
+        required: true,
+    },
 
 }, { timestamps: true });
 
-const userTokenModel = mongoose.model('token', urlSchema);
+const OAuthTokens = mongoose.model('OAuthTokens', tokenSchema);
 
-module.exports = userTokenModel;
+module.exports = OAuthTokens;

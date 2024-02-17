@@ -1,6 +1,6 @@
 const express = require('express');
 const URLmodel = require('../../models/revivingSoluz/URLmodel');
-const { checkAndRefreshTokens } = require('../../0Authtokens/revivingSoulz/refreshSoulz');
+const { validateOauthRevivingSoulz } = require('../../0Authtokens/revivingSoulz/refreshSoulz');
 const { google } = require('googleapis');
 const { checkReqs } = require('../../controllers/urlValidator');
 const { processUrlRequest } = require("../../controllers/procssUrlRequest")
@@ -14,7 +14,7 @@ app.post('/addURL', async (req, res) => {
   }
 
   try {
-    const { oAuth2Client } = await checkAndRefreshTokens()
+    const { oAuth2Client } = await validateOauthRevivingSoulz()
     const drive = google.drive({ version: 'v3', auth: oAuth2Client });
     const params = { mediaLinks, isFb, isInstagram, isYoutube, isImage, isReel, uploadedToYoutube, downURL, URLmodel, drive }
     const processReq = await processUrlRequest(params)
@@ -43,7 +43,7 @@ app.delete('/urls/delete', async (req, res) => {
       uploadedToInstagram: true,
       uploadedToYoutube: true,
     });
-    const { oAuth2Client } = await checkAndRefreshTokens()
+    const { oAuth2Client } = await validateOauthRevivingSoulz()
     const drive = google.drive({ version: 'v3', auth: oAuth2Client });
 
     console.log(documentsToDelete)

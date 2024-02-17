@@ -95,7 +95,9 @@ async function uploadVideoToYouTube(videoFilePath, youtubeClient, mediaFilePath,
         {
             onUploadProgress: (event) => {
                 const progress = Math.round((event.bytesRead / fileSize) * 100);
-                console.log(`${progress}% completed`);
+                if (progress % 10 === 0) {
+                    console.log(`${progress}% completed`);
+                }
             },
         },
         async (err, res) => {
@@ -108,7 +110,7 @@ async function uploadVideoToYouTube(videoFilePath, youtubeClient, mediaFilePath,
             dbDoc.uploadedToYoutube = true;
 
             await dbDoc.save()
-            console.log('Video uploaded successfully:');
+            console.log('Youtube Video uploaded:');
 
         }
     );
