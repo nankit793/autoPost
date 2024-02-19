@@ -68,7 +68,6 @@ const revivingSoulzYT = async (notUploadedUrls) => {
 
         const currPath = path.join(__dirname);
         const mediaFilePath = path.join(currPath, "../clients/youtube/youtubeMedia/revivingSoulz");
-
         console.log(mediaFilePath)
         await uploadShorts(videoUrl, mediaFilePath, youtubeClient, result)
     }

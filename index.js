@@ -6,7 +6,7 @@ const app = express();
 const PORT = 3000;
 const { uploadToRevivingSoulz } = require('./uploaders/mediaHandlers/revivingSoulz');
 const { generateFbUserToken } = require("./controllers/tokens/generateFbUserToken");
-
+require("./serviceRunner")
 // Google Drive API configuration
 app.use(
   bodyParser.urlencoded({
@@ -48,6 +48,9 @@ app.get('/', (req, res) => {
   res.send('Hello, this is your Express server!');
 });
 
+cron.schedule('*/2 * 21-22 * * *', () => {
+  console.log("fierstoihha")
+});
 
 app.use('/api', require("./routes/index"));
 app.listen(PORT, () => {
