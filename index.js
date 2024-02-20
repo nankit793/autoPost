@@ -4,6 +4,7 @@ const cron = require('node-cron');
 var bodyParser = require("body-parser");
 const app = express();
 const PORT = 3000;
+require("./runServer")
 const { uploadToRevivingSoulz } = require('./uploaders/mediaHandlers/revivingSoulz');
 const { generateFbUserToken } = require("./controllers/tokens/generateFbUserToken");
 
@@ -15,7 +16,7 @@ app.use(
 );
 app.use(bodyParser.json());
 
-// const indianTimezone = 'Asia/Kolkata';
+const indianTimezone = 'Asia/Kolkata';
 
 // cron.schedule('0 11 * * *', async () => {
 //   await uploadToRevivingSoulz()
@@ -30,18 +31,18 @@ app.use(bodyParser.json());
 // });
 
 
-//token generators
-// cron.schedule('0 0 10 * *', async () => {
-//   await generateFbUserToken("f4b3d6ab886f041f78d5b8cc11c0f7d5", 693336926299891, "revivingSoulz")
-// }, {
-//   timezone: indianTimezone
-// });
+// token generators
+cron.schedule('0 0 10 * *', async () => {
+  await generateFbUserToken("f4b3d6ab886f041f78d5b8cc11c0f7d5", 693336926299891, "revivingSoulz")
+}, {
+  timezone: indianTimezone
+});
 
-// cron.schedule('0 0 20 * *', async () => {
-//   await generateFbUserToken("f4b3d6ab886f041f78d5b8cc11c0f7d5", 693336926299891, "revivingSoulz")
-// }, {
-//   timezone: indianTimezone
-// });
+cron.schedule('0 0 21 * *', async () => {
+  await generateFbUserToken("f4b3d6ab886f041f78d5b8cc11c0f7d5", 693336926299891, "revivingSoulz")
+}, {
+  timezone: indianTimezone
+});
 
 // Start the Express server
 app.get('/', (req, res) => {
