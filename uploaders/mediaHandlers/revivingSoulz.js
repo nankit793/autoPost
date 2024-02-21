@@ -7,9 +7,11 @@ const { validateOauthRevivingSoulz } = require("../../0Authtokens/revivingSoulz/
 const { google } = require("googleapis");
 const { fbVideoUpload } = require("../clients/facebook/fbVideoUpload");
 const { returnFbAccessToken } = require("../../controllers/tokens/returnFbUserToken");
-const path = require("path")
+const path = require("path");
+const { revivingSoulz } = require("../../assets/titles");
+const { randomTitle, randomTags } = require("../../controllers/randomPostData");
 
-const revivingSoluzInsta = async (notUploadedUrls) => {
+const revivingSoluzInsta = async (notUploadedUrls, title, tags) => {
     const { token } = await returnFbAccessToken("revivingSoulz")
     let accessToken = token;
     if (!token) {
@@ -34,7 +36,7 @@ const revivingSoluzInsta = async (notUploadedUrls) => {
     }
     return
 }
-const revivingSoluzFB = async (notUploadedUrls) => {
+const revivingSoluzFB = async (notUploadedUrls, title, tags) => {
 
     const result = notUploadedUrls.find((url) => {
         return !url.uploadedToFb
@@ -51,11 +53,11 @@ const revivingSoluzFB = async (notUploadedUrls) => {
 
         else if (result?.isReel) {
             let url = `https://drive.usercontent.google.com/u/2/uc?id=${fileIdOnDrive}`
-            await fbVideoUpload('201428166395003', pageAccessToken, url, "", "", result)
+            await fbVideoUpload('201428166395003', pageAccessToken, url, tags, title, result)
         }
     }
 }
-const revivingSoulzYT = async (notUploadedUrls) => {
+const revivingSoulzYT = async (notUploadedUrls, title, tags) => {
 
     const result = notUploadedUrls.find((url) => {
         return !url.uploadedToYoutube
@@ -69,8 +71,7 @@ const revivingSoulzYT = async (notUploadedUrls) => {
         const currPath = path.join(__dirname);
         const mediaFilePath = path.join(currPath, "../clients/youtube/youtubeMedia/revivingSoulz");
 
-        console.log(mediaFilePath)
-        await uploadShorts(videoUrl, mediaFilePath, youtubeClient, result)
+        await uploadShorts(videoUrl, mediaFilePath, youtubeClient, result, title, tags)
     }
 
 }
@@ -83,10 +84,12 @@ const uploadToRevivingSoulz = async () => {
                 { uploadedToYoutube: false }
             ]
         });
+        const title = randomTitle(revivingSoulz)
+        const tags = randomTags()
 
-        await revivingSoulzYT(notUploadedUrls)
-        await revivingSoluzFB(notUploadedUrls)
-        await revivingSoluzInsta(notUploadedUrls)
+        await revivingSoulzYT(notUploadedUrls, title, tags)
+        await revivingSoluzFB(notUploadedUrls, title, tags)
+        await revivingSoluzInsta(notUploadedUrls, title, tags)
 
     } catch (error) {
         console.log(error)

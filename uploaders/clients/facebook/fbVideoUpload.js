@@ -22,7 +22,7 @@ const fbVideoUpload = async (fbPageID, pageAccessToken, file_url, description, t
         if (uploadVideo.status !== 200) {
             return { state: false }
         }
-        const publishBase = baseURL + `?access_token=${pageAccessToken}&video_id=${video_id}&upload_phase=finish&video_state=PUBLISHED&description=${description}&title=${title}`
+        const publishBase = baseURL + `?access_token=${pageAccessToken}&video_id=${video_id}&upload_phase=finish&video_state=PUBLISHED&description=${title, `...........`, description}&title=${title}`
         const publishVideo = await axios.post(publishBase, null, { headers: headers })
         if (publishVideo.status !== 200) {
             return { state: false }

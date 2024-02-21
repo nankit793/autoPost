@@ -18,6 +18,7 @@ app.use(bodyParser.json());
 
 const indianTimezone = 'Asia/Kolkata';
 
+// uploadToRevivingSoulz()
 // cron.schedule('0 11 * * *', async () => {
 //   await uploadToRevivingSoulz()
 // }, {
