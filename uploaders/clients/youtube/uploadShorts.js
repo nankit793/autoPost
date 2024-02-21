@@ -52,7 +52,7 @@ async function downloadVideo(videoUrl, mediaFilePath) {
 }
 
 // Function to trim the video to 60 seconds if it's longer
-function trimVideoIfNeeded(mediaFilePath, youtubeClient, dbDoc) {
+function trimVideoIfNeeded(mediaFilePath, youtubeClient, dbDoc, title, tags) {
     const inputFilePath = path.join(mediaFilePath, "downloaded.mp4");
     const outputFilePath = path.join(mediaFilePath, "trimmed.mp4");
 
@@ -62,17 +62,17 @@ function trimVideoIfNeeded(mediaFilePath, youtubeClient, dbDoc) {
         .output(outputFilePath)
         .on('end', () => {
             console.log('Trimmed video saved:', outputFilePath);
-            uploadVideoToYouTube(outputFilePath, youtubeClient, mediaFilePath, dbDoc)
+            uploadVideoToYouTube(outputFilePath, youtubeClient, mediaFilePath, dbDoc, title, tags)
         })
         .on('error', (err) => {
             console.error('Error trimming video:', err);
-            uploadVideoToYouTube(inputFilePath, youtubeClient, mediaFilePath, dbDoc)
+            uploadVideoToYouTube(inputFilePath, youtubeClient, mediaFilePath, dbDoc, title, tags)
         })
         .run();
 }
 
 // Function to upload the video to YouTube
-async function uploadVideoToYouTube(videoFilePath, youtubeClient, mediaFilePath, dbDoc) {
+async function uploadVideoToYouTube(videoFilePath, youtubeClient, mediaFilePath, dbDoc, title, tags) {
     const fileSize = fs.statSync(videoFilePath).size;
     const youtube = youtubeClient;
     youtube.videos.insert(
@@ -80,8 +80,8 @@ async function uploadVideoToYouTube(videoFilePath, youtubeClient, mediaFilePath,
             part: 'snippet,status',
             requestBody: {
                 snippet: {
-                    title: 'Your new Title',
-                    description: 'Your video description',
+                    title: title,
+                    description: tags,
                     tags: ['Shorts'], // Add the "Shorts" tag to indicate it's a Short
                 },
                 status: {
@@ -116,11 +116,11 @@ async function uploadVideoToYouTube(videoFilePath, youtubeClient, mediaFilePath,
     );
 }
 
-const uploadShorts = async (videoUrl, mediaFilePath, youtubeClient, model) => {
+const uploadShorts = async (videoUrl, mediaFilePath, youtubeClient, model, title, tags) => {
 
     downloadVideo(videoUrl, mediaFilePath)
         .then(() => {
-            trimVideoIfNeeded(mediaFilePath, youtubeClient, model);
+            trimVideoIfNeeded(mediaFilePath, youtubeClient, model, title, tags);
         })
         .catch((error) => {
             console.error('Error downloading video:', error);

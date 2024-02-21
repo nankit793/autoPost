@@ -55,7 +55,7 @@ app.delete('/urls/delete', async (req, res) => {
         if (err) {
           console.error('Error deleting file:', err);
         } else {
-          console.log('File deleted:', fileId);
+          console.log('File deleted:', doc.driveFileId);
         }
       });
     });
