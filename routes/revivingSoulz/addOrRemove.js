@@ -3,7 +3,8 @@ const URLmodel = require('../../models/revivingSoluz/URLmodel');
 const { validateOauthRevivingSoulz } = require('../../0Authtokens/revivingSoulz/refreshSoulz');
 const { google } = require('googleapis');
 const { checkReqs } = require('../../controllers/urlValidator');
-const { processUrlRequest } = require("../../controllers/procssUrlRequest")
+const { processUrlRequest } = require("../../controllers/procssUrlRequest");
+const UrlModel = require('../../models/revivingSoluz/URLmodel');
 const app = express();
 
 app.post('/addURL', async (req, res) => {
@@ -65,5 +66,44 @@ app.delete('/urls/delete', async (req, res) => {
   }
 });
 
+
+const processFiles = (files) => {
+  uploadToFBCount = 0
+  uploadToYoutubeCount = 0
+  numOfReels = 0
+  numOfImages = 0
+  uploadToInstaCount = 0
+
+  for (let index = 0; index < files.length; index++) {
+    const element = files[index];
+    if (element.uploadedToFb) {
+      uploadToFBCount = uploadToFBCount + 1
+    }
+    if (element.uploadedToInstagram) {
+      uploadToInstaCount = uploadToInstaCount + 1
+    }
+    if (element.uploadedToYoutube) {
+      uploadToYoutubeCount = uploadToYoutubeCount + 1
+    }
+
+    if (element.isImage) {
+      numOfImages = numOfImages + 1
+    }
+    else if (element.isReel) {
+      numOfReels = numOfReels + 1
+    }
+  }
+
+  return { uploadToFBCount, uploadToInstaCount, uploadToYoutubeCount, numOfImages, numOfReels }
+}
+app.get("/info", async (req, res) => {
+  try {
+    const files = await UrlModel.find()
+    const fileInformation = processFiles(files)
+    res.status(200).json({ totalURLS: files.length, ...fileInformation })
+  } catch (error) {
+    return res.json({ message: error.message || "please notify developer" })
+  }
+})
 module.exports = app;
 

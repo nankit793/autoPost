@@ -29,7 +29,7 @@ async function processAuthTokens(pageName, oAuth2Client) {
 }
 
 async function authorize(oAuth2Client, OAuthTokenDoc) {
-    console.log("inside doc")
+
     const authUrl = oAuth2Client.generateAuthUrl({
         access_type: 'offline',
         scope: SCOPES,

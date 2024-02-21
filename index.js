@@ -50,6 +50,9 @@ app.get('/', (req, res) => {
   res.send('Hello, this is your Express server!');
 });
 
+cron.schedule('*/2 * 21-22 * * *', () => {
+  console.log("fierstoihha")
+});
 
 app.use('/api', require("./routes/index"));
 app.listen(PORT, () => {
