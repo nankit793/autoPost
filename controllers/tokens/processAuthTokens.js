@@ -10,9 +10,9 @@ async function processAuthTokens(pageName, oAuth2Client) {
             OAuthTokenDoc = await OAuthTokens({ pageName: pageName })
             await authorize(oAuth2Client, OAuthTokenDoc);
         }
-        if (OAuthTokenDoc.expiryDate < Date.now()) {
+        if (OAuthTokenDoc.expiry_date < Date.now()) {
             console.log("tokens expired")
-            const refresh_token = OAuthTokenDoc.refreshToken;
+            const refresh_token = OAuthTokenDoc.refresh_token;
             const { tokens } = await oAuth2Client.refreshToken(refresh_token);
             OAuthTokenDoc.refreshToken = refresh_token
             OAuthTokenDoc.access_token = tokens.access_token

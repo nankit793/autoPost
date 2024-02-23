@@ -4,7 +4,7 @@ const randomTitle = (array) => {
 }
 
 const randomTags = () => {
-    const array = [1, 2, 3, 3, 5, 5, 2, 2, 4, 4, 3, 2, 4, 33, 4, 3, 2, 4, 4, 4, 23423, 423, 423, 523, 5, 245, 345, 34, 5, 345, 34, 534, 5, 435]
+    const array = ["#meme", "#motive", "#3", "#3", "#wwe", "#pod", "#somerandomtag", "#somemorerandomtag", "#It_does_not_mean_anything"]
     const n = 5
     const copyArray = array.slice();
     const randomElements = [];
