@@ -14,7 +14,7 @@ const randomTags = () => {
         randomElements.push(randomElement);
         copyArray.splice(randomIndex, 1);
     }
-    return randomElements.join(' ');
+    return randomElements;
 }
 
 module.exports = { randomTags, randomTitle }

@@ -52,11 +52,11 @@ async function downloadVideo(videoUrl, mediaFilePath) {
 }
 
 // Function to trim the video to 60 seconds if it's longer
-function trimVideoIfNeeded(mediaFilePath, youtubeClient, dbDoc, title, tags) {
+async function trimVideoIfNeeded(mediaFilePath, youtubeClient, dbDoc, title, tags) {
     const inputFilePath = path.join(mediaFilePath, "downloaded.mp4");
     const outputFilePath = path.join(mediaFilePath, "trimmed.mp4");
 
-    ffmpeg(inputFilePath)
+    await ffmpeg(inputFilePath)
         .setStartTime(0) // Start time in seconds
         .setDuration(59) // Duration in seconds
         .output(outputFilePath)
@@ -81,7 +81,7 @@ async function uploadVideoToYouTube(videoFilePath, youtubeClient, mediaFilePath,
             requestBody: {
                 snippet: {
                     title: title,
-                    description: tags,
+                    description: tags.join(' '),
                     tags: ['Shorts'], // Add the "Shorts" tag to indicate it's a Short
                 },
                 status: {
@@ -111,7 +111,7 @@ async function uploadVideoToYouTube(videoFilePath, youtubeClient, mediaFilePath,
 
             await dbDoc.save()
             console.log('Youtube Video uploaded:');
-
+            return
         }
     );
 }

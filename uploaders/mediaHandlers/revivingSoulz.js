@@ -30,7 +30,8 @@ const revivingSoluzInsta = async (notUploadedUrls, title, tags) => {
             url = baseURL + `?image_url=${downloadURL}&access_token=${accessToken}`
         }
         else if (result?.isReel) {
-            url = baseURL + `?video_url=${downloadURL}&access_token=${accessToken}&media_type=REELS`
+            tags.unshift(title)
+            url = baseURL + `?video_url=${downloadURL}&access_token=${accessToken}&media_type=REELS&caption=${tags.join("%20").replaceAll("#", "%23").replaceAll(" ", "%20")}`
         }
         await instaMediaUploader("17841464678870993", result, accessToken, url)
     }

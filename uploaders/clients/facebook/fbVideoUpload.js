@@ -1,5 +1,5 @@
 const axios = require("axios")
-const fbVideoUpload = async (fbPageID, pageAccessToken, file_url, description, title, dbDoc) => {
+const fbVideoUpload = async (fbPageID, pageAccessToken, file_url, tags, title, dbDoc) => {
     try {
 
 
@@ -22,16 +22,21 @@ const fbVideoUpload = async (fbPageID, pageAccessToken, file_url, description, t
         if (uploadVideo.status !== 200) {
             return { state: false }
         }
-        const publishBase = baseURL + `?access_token=${pageAccessToken}&video_id=${video_id}&upload_phase=finish&video_state=PUBLISHED&description=${title, `...........`, description}&title=${title}`
-        const publishVideo = await axios.post(publishBase, null, { headers: headers })
-        if (publishVideo.status !== 200) {
-            return { state: false }
-        }
-        //update mongo
-        dbDoc.uploadedToFb = true
-        await dbDoc.save()
-        console.log("uploaded to fb")
-        return { state: true };
+        tags.unshift(title)
+        setTimeout(async () => {
+            const publishBase = baseURL + `?access_token=${pageAccessToken}&video_id=${video_id}&upload_phase=finish&video_state=PUBLISHED&description=${tags.join("%20").replaceAll("#", "%23").replaceAll(" ", "%20")}&title=${title.replaceAll(" ", "%20")}`
+            const publishVideo = await axios.post(publishBase, null, { headers: headers })
+            if (publishVideo.status !== 200) {
+                return { state: false }
+            }
+            else {
+                // update mongo
+                console.log("uploaded to fb")
+                dbDoc.uploadedToFb = true
+                await dbDoc.save()
+                return { state: true };
+            }
+        }, 20000);
 
     } catch (error) {
         console.log(error.message)
