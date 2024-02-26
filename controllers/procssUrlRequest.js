@@ -4,6 +4,10 @@ const { uploadtVideoToDrive } = require("../uploaders/clients/drive/driveVideoUp
 const processUrlRequest = async (params) => {
     try {
         const { mediaLinks, isFb, isInstagram, isYoutube, isImage, isReel, uploadedToYoutube, downURL, URLmodel, drive } = params
+        const doc = await URLmodel.findOne({ url: mediaLinks })
+        if (doc) {
+            return { state: "false", message: "URL already added" }
+        }
 
         let driveFileId;
         if (isImage) {
@@ -14,7 +18,7 @@ const processUrlRequest = async (params) => {
             driveFileId = await uploadtVideoToDrive(downURL, drive);
         }
 
-        const newUrl = new URLmodel({
+        const newUrl = await new URLmodel({
             url: mediaLinks,
             isFb,
             isInstagram,

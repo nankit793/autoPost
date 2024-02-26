@@ -58,7 +58,7 @@ async function trimVideoIfNeeded(mediaFilePath, youtubeClient, dbDoc, title, tag
 
     await ffmpeg(inputFilePath)
         .setStartTime(0) // Start time in seconds
-        .setDuration(59) // Duration in seconds
+        .setDuration(55) // Duration in seconds
         .output(outputFilePath)
         .on('end', () => {
             console.log('Trimmed video saved:', outputFilePath);

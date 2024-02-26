@@ -2,6 +2,7 @@ const URlmodelStruc = {
     url: {
         type: String,
         required: true,
+        unique: true,
     },
     driveFileId: {
         type: String,

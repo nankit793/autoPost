@@ -1,5 +1,5 @@
 const axios = require('axios');
-// const UrlModel = require('../../../../models/revivingSoluz/URLmodel');
+
 const instaMediaUploader = async (IgID, dbDoc, accessToken, url) => {
     try {
         await axios.post(url).then(async (response) => {
