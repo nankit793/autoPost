@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
 
-app.use('/revivingSoulz', require("./revivingSoulz/addOrRemove"));
+app.use('/app', require("./addOrRemove"));
 
 module.exports = app;

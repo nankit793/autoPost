@@ -1,9 +1,10 @@
 const fs = require('fs');
 const axios = require('axios');
 const path = require("path")
-const ffmpeg = require('fluent-ffmpeg');
-const ffmpegPath = require('ffmpeg-static');
-ffmpeg.setFfmpegPath(ffmpegPath);
+const ffmpegPath = require('@ffmpeg-installer/ffmpeg').path
+const ffmpeg = require('fluent-ffmpeg')
+ffmpeg.setFfmpegPath(ffmpegPath)
+
 
 function deleteFolderContents(folderPath) {
 
@@ -33,6 +34,7 @@ async function downloadVideo(videoUrl, mediaFilePath) {
         });
         await fs.mkdir(mediaFilePath, { recursive: true }, (err) => {
             if (err) {
+                console.log("error")
             } else {
                 console.log("folder created")
             }

@@ -1,4 +1,4 @@
-const revivingSoulz = [
+const revivingSoulzTiles = [
     "This is title", "This may be title", "this could also be title"
 ]
-module.exports = { revivingSoulz }
+module.exports = { revivingSoulzTiles }
