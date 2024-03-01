@@ -3,7 +3,7 @@ const randomTitle = (array) => {
     return array[randomIndex];
 }
 
-const randomTags = () => {
+const randomTags = (tags) => {
     const array = ["#meme", "#motive", "#3", "#3", "#wwe", "#pod", "#somerandomtag", "#somemorerandomtag", "#It_does_not_mean_anything"]
     const n = 5
     const copyArray = array.slice();

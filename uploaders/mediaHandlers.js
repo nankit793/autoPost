@@ -106,7 +106,7 @@ const uploader = async (instance) => {
         });
 
         const title = randomTitle(instance.titles)
-        const tags = randomTags()
+        const tags = randomTags(instance.tags)
 
         await uploadToYoutube(notUploadedUrls, title, tags, instance)
         await uploadToFB(notUploadedUrls, title, tags, instance)
@@ -114,11 +114,13 @@ const uploader = async (instance) => {
 
     } catch (error) {
         console.log(error)
+        return res.status(401).json({ message: "Server Error, please contant developer" })
     }
 }
 
 const initiateUploader = async () => {
     const revivingSoulz = new SocialData(revivingSoulzIgUserId, revivingSoulzFbUserId, revivingSoulzPageAccessToken, "revivingSoulz", UrlModelRevSoulz, returnFbAccessToken, revivingSoulzTiles, [])
+    const ritikBkl = new SocialData()
     await uploader(revivingSoulz)
 }
 module.exports = { initiateUploader }
