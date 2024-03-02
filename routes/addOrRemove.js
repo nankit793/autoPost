@@ -6,19 +6,18 @@ const { Info } = require('../controllers/socialUrls/info');
 const { deleteURL } = require('../controllers/socialUrls/removeURL');
 
 const revivingSoulzUrlModel = require('../models/revivingSoluz/URLmodel');
-const RitikBkl = require('../models/ritikBkl/URLmodel');
+const AnimetoModel = require('../models/animeto/URLmodel');
 
 class SocialData {
     constructor(name, model) {
         this.name = name
         this.model = model;
-        this.url = url
     }
 }
 
 const instances = {
-    "1584356593": SocialData("revivingSoulz", revivingSoulzUrlModel),
-    "1231454352": SocialData("ritikBkl", RitikBkl)
+    "1584356593": new SocialData("revivingSoulz", revivingSoulzUrlModel),
+    "1231454352": new SocialData("animeto", AnimetoModel)
 }
 
 app.post('/addURL', async (req, res) => {
@@ -101,7 +100,7 @@ app.delete("/removeURL", async (req, res) => {
         if (!app)
             return res.status(401).json({ message: "please, provide valid App ID" })
 
-        const deleteMany = await deleteURL(url, model, name)
+        const deleteMany = await deleteURL(url, app.model, app.name)
 
         if (deleteMany.state)
             return res.status(200).json({ message: deleteMany.message || "Success" })

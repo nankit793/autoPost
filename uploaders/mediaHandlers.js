@@ -7,23 +7,31 @@ const { google } = require("googleapis");
 const path = require("path");
 const { validateOauth } = require("../0Authtokens/validateOAuth");
 const fs = require('fs');
+const { returnFbAccessToken } = require("../controllers/tokens/returnFbUserToken");
+const { randomTitle, randomTags } = require("../controllers/randomPostData");
+const { revivingSoulzTiles, animetoTitles } = require("../assets/titles");
+
 // reviving soulz
 const UrlModelRevSoulz = require("../models/revivingSoluz/URLmodel");
-const { returnFbAccessToken } = require("../controllers/tokens/returnFbUserToken");
-const { revivingSoulzTiles } = require("../assets/titles");
-const { randomTitle, randomTags } = require("../controllers/randomPostData");
 let revivingSoulzPageAccessToken = "EAAJ2lhUzpvMBOxUp0sM9ojxxX5JOU7OXulSH3LdXkLVuNYLro973EPZBqVzZCy6MhbbX3OLFOXERY0GpdiV7gRIUvsuJ3sm0w7OK1QKDdoTaLD82yMTmP7NHgCAC1LxCd3Pk0flHE0JYA2eKYW6DjzIb6PT9wmZB5NNGUkvZAxxJJwxbJT1pWzngIXoYqq2SKPTufs7f4nnqAuAZD"
 let revivingSoulzFbUserId = "201428166395003"
 let revivingSoulzIgUserId = "17841464678870993"
 
+// animeto
+const { animetoTags } = require("../assets/tags");
+const AnimetoModel = require("../models/animeto/URLmodel");
+let animetoPageAccessToken = "EAAK69zoePbMBO3KEw6jz4pmZBewTqrpiepfvW3m5N3belGR3J7ahlQZAlpfizrpNSbYic7DRsrbpnBoTh26ibpvqNA8hD2g9yPul1DSPUSZACgmdrfyWcmFpINfIF6KUAnxtePZBb5wlq3IKGL711h7K9GKJuMkqZAdIzHa0XAV3ZBrRvhZAiQhKXvqxbUa01yeFzLfRWBqpbImnxOZBN4ng7P7wXtZBOIc8jPa1cVqAZD"
+let animetoFbUserId = "278856668633727"
+let animeIgUserId = "17841465133015574"
+
+
 class SocialData {
-    constructor(IgUserId, fbUserId, pageAccessToken, name, model, fbAccessToken, titles, tags) {
+    constructor(IgUserId, fbUserId, pageAccessToken, name, model, titles, tags) {
         this.pageAccessToken = pageAccessToken
         this.fbUserId = fbUserId
         this.IgUserId = IgUserId
         this.name = name
         this.model = model;
-        this.fbAccessToken = fbAccessToken;
         this.titles = titles;
         this.tags = tags;
     }
@@ -32,9 +40,9 @@ class SocialData {
 const uploadToInsta = async (notUploadedUrls, title, tags, instance) => {
     const { token } = await returnFbAccessToken(instance.name)
     let accessToken = token;
-    if (!token) {
-        return result.status(401).json({ state: false, message: "fb user token not valid, or not given" })
-    }
+    if (!token)
+        throw new Error("FB token may not be available, doc created")
+
     const baseURL = `https://graph.facebook.com/v19.0/${instance.IgUserId}/media`
     const result = notUploadedUrls.find((url) => {
         return !url.uploadedToInstagram
@@ -114,13 +122,20 @@ const uploader = async (instance) => {
 
     } catch (error) {
         console.log(error)
-        return res.status(401).json({ message: "Server Error, please contant developer" })
+        throw new Error("Server Error, please contant developer")
+        // return { message: "Server Error, please contant developer", state: false }
     }
 }
 
 const initiateUploader = async () => {
-    const revivingSoulz = new SocialData(revivingSoulzIgUserId, revivingSoulzFbUserId, revivingSoulzPageAccessToken, "revivingSoulz", UrlModelRevSoulz, returnFbAccessToken, revivingSoulzTiles, [])
-    const ritikBkl = new SocialData()
-    await uploader(revivingSoulz)
+    try {
+
+        const revivingSoulz = new SocialData(revivingSoulzIgUserId, revivingSoulzFbUserId, revivingSoulzPageAccessToken, "revivingSoulz", UrlModelRevSoulz, revivingSoulzTiles, animetoTags)
+        const animeto = new SocialData(animeIgUserId, animetoFbUserId, animetoPageAccessToken, "animeto", AnimetoModel, animetoTitles, animetoTags)
+        await uploader(revivingSoulz)
+        await uploader(animeto)
+    } catch (error) {
+        console.log(error)
+    }
 }
 module.exports = { initiateUploader }
