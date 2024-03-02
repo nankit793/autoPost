@@ -4,6 +4,7 @@ const urlSchema = new mongoose.Schema({
     pageName: {
         type: String,
         required: true,
+        unique: true
     },
     token: {
         type: String,
