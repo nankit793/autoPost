@@ -20,7 +20,7 @@ let revivingSoulzIgUserId = "17841464678870993"
 // animeto
 const { animetoTags } = require("../assets/tags");
 const AnimetoModel = require("../models/animeto/URLmodel");
-let animetoPageAccessToken = "EAAK69zoePbMBO3KEw6jz4pmZBewTqrpiepfvW3m5N3belGR3J7ahlQZAlpfizrpNSbYic7DRsrbpnBoTh26ibpvqNA8hD2g9yPul1DSPUSZACgmdrfyWcmFpINfIF6KUAnxtePZBb5wlq3IKGL711h7K9GKJuMkqZAdIzHa0XAV3ZBrRvhZAiQhKXvqxbUa01yeFzLfRWBqpbImnxOZBN4ng7P7wXtZBOIc8jPa1cVqAZD"
+let animetoPageAccessToken = "EAAK69zoePbMBO06gQwPTib340A8XmDqKhtIIs1gsUXymujNdnKQnUwsTNn3ibXZCZBCkjx01YEJnu0psddSoSBjZABLJFWTxmuKZA9kukXTTZCNt9NM7T88LzMwN6YBmX0ZAL2mQDxtYhKfD05Hv6E6jJgmQfECltpfcelnsFoU1nJHGzZCHNfkfECVlkKIIKeH91FNCMjfpJ0FKZCy1fNoJAWRnkZAy4Sq2jGqVVRHYZD"
 let animetoFbUserId = "278856668633727"
 let animeIgUserId = "17841465133015574"
 
