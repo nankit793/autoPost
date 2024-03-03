@@ -1,31 +1,31 @@
 const { google } = require("googleapis");
 
 const processFiles = (files) => {
-    uploadToFBCount = 0
-    uploadToYoutubeCount = 0
+    uploadedToFBCount = 0
+    uploadedToYoutubeCount = 0
     notUploadedToInstaUrls = []
     notUploadedToYoutubeUrls = []
     notUploadedToFbUrls = []
     numOfReels = 0
     numOfImages = 0
-    uploadToInstaCount = 0
+    uploadedToInstaCount = 0
     notUploadedAnywhereUrls = []
     for (let index = 0; index < files.length; index++) {
         const element = files[index];
         if (element.uploadedToFb) {
-            uploadToFBCount = uploadToFBCount + 1
+            uploadedToFBCount = uploadedToFBCount + 1
         }
         else {
             notUploadedToFbUrls.push(element.url)
         }
         if (element.uploadedToInstagram) {
-            uploadToInstaCount = uploadToInstaCount + 1
+            uploadedToInstaCount = uploadedToInstaCount + 1
         }
         else {
             notUploadedToInstaUrls.push(element.url)
         }
         if (element.uploadedToYoutube) {
-            uploadToYoutubeCount = uploadToYoutubeCount + 1
+            uploadedToYoutubeCount = uploadedToYoutubeCount + 1
         }
         else {
             notUploadedToYoutubeUrls.push(element.url)
@@ -42,7 +42,7 @@ const processFiles = (files) => {
     }
 
     return {
-        uploadCounts: { uploadToFBCount, uploadToInstaCount, uploadToYoutubeCount },
+        uploadedCounts: { uploadedToFBCount, uploadedToInstaCount, uploadedToYoutubeCount },
         notUploadedAnywhereUrls,
         notUploadedUrls: {
             notUploadedToFbUrls, notUploadedToInstaUrls, notUploadedToYoutubeUrls

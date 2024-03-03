@@ -9,7 +9,7 @@ const { validateOauth } = require("../0Authtokens/validateOAuth");
 const fs = require('fs');
 const { returnFbAccessToken } = require("../controllers/tokens/returnFbUserToken");
 const { randomTitle, randomTags } = require("../controllers/randomPostData");
-const { revivingSoulzTiles, animetoTitles } = require("../assets/titles");
+const { revivingSoulzTiles, animetoTitles, reditoTitles } = require("../assets/titles");
 
 // reviving soulz
 const UrlModelRevSoulz = require("../models/revivingSoluz/URLmodel");
@@ -23,6 +23,13 @@ const AnimetoModel = require("../models/animeto/URLmodel");
 let animetoPageAccessToken = "EAAK69zoePbMBOya2sDlkZAriTIFaccZBiDzoU7e1tjE7LEVX5PEZCiFZCVLkfUuHJvQT2fvH78G0cwkJvA27eo4iH6oYHbV2fhrbg4JlKd7vqZB8NdFZCwdZAm1N3BVZC2XwViMyYgIQsLE7kzoJY0VbvZCFYvJOZAGUUsrectVpXro7BedYKUUG6UiNF8xuFrnfSB8QZA2tc4RFY7ZB6Q7L5T0gJDeu6M6zbQlqQ2cvougZD"
 let animetoFbUserId = "278856668633727"
 let animeIgUserId = "17841465133015574"
+
+// animeto
+const { reditoTags } = require("../assets/tags");
+const ReditoModel = require("../models/redito/URLmodel");
+let reditoPageAccessToken = "EAAF6FTVT2xABOx00m2rYEjTZB4kipNMAEyLc1PbLPAyqs8wPLZCRWHyromGEetrI7H39szTywyzUAMIVoJfbv1nC7O1jI33kamsqTn0Yp4LaL9J2g5oh8zOW0ZAaFlZBM5iFDKv3eMfY2TySjZBow6wlgUKPVfLQLXYCLSQ1pTg0jJd9CvbjUk2fj1XZANsvyHzZBZBGZATdWAEQPUfJzUmZAYKmlcqwBMLsAR4ZCRaLBcZD"
+let redditoFbUserId = "249669224895258"
+let reditoIgUserId = "17841464791716146"
 
 
 class SocialData {
@@ -133,8 +140,10 @@ const initiateUploader = async () => {
 
         const revivingSoulz = new SocialData(revivingSoulzIgUserId, revivingSoulzFbUserId, revivingSoulzPageAccessToken, "revivingSoulz", UrlModelRevSoulz, revivingSoulzTiles, animetoTags)
         const animeto = new SocialData(animeIgUserId, animetoFbUserId, animetoPageAccessToken, "animeto", AnimetoModel, animetoTitles, animetoTags)
+        const redito = new SocialData(reditoIgUserId, redditoFbUserId, reditoPageAccessToken, "redito", ReditoModel, reditoTitles, reditoTags)
         await uploader(revivingSoulz)
         await uploader(animeto)
+        await uploader(redito)
     } catch (error) {
         console.log(error)
     }

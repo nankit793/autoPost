@@ -4,4 +4,8 @@ const revivingSoulzTiles = [
 const animetoTitles = [
     "This is title", "This may be title", "this could also be title"
 ]
-module.exports = { revivingSoulzTiles, animetoTitles }
+
+const reditoTitles = [
+    "This is title", "This may be title", "this could also be title"
+]
+module.exports = { revivingSoulzTiles, animetoTitles, reditoTitles }

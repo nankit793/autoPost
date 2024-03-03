@@ -7,6 +7,7 @@ const { deleteURL } = require('../controllers/socialUrls/removeURL');
 
 const revivingSoulzUrlModel = require('../models/revivingSoluz/URLmodel');
 const AnimetoModel = require('../models/animeto/URLmodel');
+const ReditoModel = require('../models/redito/URLmodel');
 
 class SocialData {
     constructor(name, model) {
@@ -17,7 +18,8 @@ class SocialData {
 
 const instances = {
     "1584356593": new SocialData("revivingSoulz", revivingSoulzUrlModel),
-    "1231454352": new SocialData("animeto", AnimetoModel)
+    "1231454352": new SocialData("animeto", AnimetoModel),
+    "1357843254": new SocialData("redito", ReditoModel)
 }
 
 app.post('/addURL', async (req, res) => {
