@@ -20,14 +20,14 @@ let revivingSoulzIgUserId = "17841464678870993"
 // animeto
 const { animetoTags } = require("../assets/tags");
 const AnimetoModel = require("../models/animeto/URLmodel");
-let animetoPageAccessToken = "EAAK69zoePbMBOya2sDlkZAriTIFaccZBiDzoU7e1tjE7LEVX5PEZCiFZCVLkfUuHJvQT2fvH78G0cwkJvA27eo4iH6oYHbV2fhrbg4JlKd7vqZB8NdFZCwdZAm1N3BVZC2XwViMyYgIQsLE7kzoJY0VbvZCFYvJOZAGUUsrectVpXro7BedYKUUG6UiNF8xuFrnfSB8QZA2tc4RFY7ZB6Q7L5T0gJDeu6M6zbQlqQ2cvougZD"
+let animetoPageAccessToken = "EAAK69zoePbMBOZCEpXLfr2unawAdctsaJiFTRCk8pG5KsdQTaN51HwfLTWQ87VhXlQUWV6qhBOnH76DcRtPBlUOCZBQjEGxEkYZAZAsoWj9yGs4wRgXZBZCbYq1ZAR2z9bER7r0vTLvIGmMticM6qyoJuzvfZBcbDcZB4iYfiMXkchWSy4r91Ag4gUZBuHbaR246PHCd3JSmJMC1jZBvaDLYnBLyiBZClWZBJMZAiGSLaGFucZD"
 let animetoFbUserId = "278856668633727"
 let animeIgUserId = "17841465133015574"
 
-// animeto
+// redito
 const { reditoTags } = require("../assets/tags");
 const ReditoModel = require("../models/redito/URLmodel");
-let reditoPageAccessToken = "EAAF6FTVT2xABOx00m2rYEjTZB4kipNMAEyLc1PbLPAyqs8wPLZCRWHyromGEetrI7H39szTywyzUAMIVoJfbv1nC7O1jI33kamsqTn0Yp4LaL9J2g5oh8zOW0ZAaFlZBM5iFDKv3eMfY2TySjZBow6wlgUKPVfLQLXYCLSQ1pTg0jJd9CvbjUk2fj1XZANsvyHzZBZBGZATdWAEQPUfJzUmZAYKmlcqwBMLsAR4ZCRaLBcZD"
+let reditoPageAccessToken = "EAAF6FTVT2xABO0gzvRfZCFNKDtPSZAYZBHs8RHghhQOj7YS0bDAJ49a1mjpz4c8OAm3qqZCDaGk2UzekRggTbuWvH0l7JLmFF5rQFvZB9szBxgoZB1xcYYxo4gldiQWitaAGp7WbCS1WE9ZA0CO0xxCL83r3M9SC7EJtLKZBhy51azFqd2zLO0SYuXfRhyCvXyERXAyM9iI7vIbUdKAQepSMjEANYZAOQds13EfCLedQZD"
 let redditoFbUserId = "249669224895258"
 let reditoIgUserId = "17841464791716146"
 
@@ -56,6 +56,7 @@ const uploadToInsta = async (notUploadedUrls, title, tags, instance) => {
     });
 
     if (result) {
+        console.log("initiated for instagram", instance.name)
         const fileIdOnDrive = result?.driveFileId;
         const downloadURL = `https://drive.usercontent.google.com/u/2/uc?id=${fileIdOnDrive}`
         let url = "";
@@ -78,6 +79,7 @@ const uploadToFB = async (notUploadedUrls, title, tags, instance) => {
     });
 
     if (result) {
+        console.log("initiated for facebook", instance.name)
         const fileIdOnDrive = result?.driveFileId;
         if (result?.isImage) {
             let url = `https://graph.facebook.com/v19.0/${instance.fbUserId}/photos?url=https://drive.usercontent.google.com/u/2/uc?id=${fileIdOnDrive}&access_token=${instance.pageAccessToken}`
@@ -96,6 +98,7 @@ const uploadToYoutube = async (notUploadedUrls, title, tags, instance) => {
         return !url.uploadedToYoutube
     });
     if (result) {
+        console.log("initiated for youtube", instance.name)
         const fileIdOnDrive = result?.driveFileId;
         const videoUrl = `https://drive.usercontent.google.com/u/2/uc?id=${fileIdOnDrive}`
         const { oAuth2Client } = await validateOauth(instance.name)
@@ -112,7 +115,6 @@ const uploadToYoutube = async (notUploadedUrls, title, tags, instance) => {
 
 const uploader = async (instance) => {
     try {
-        console.log("initiated for", instance.name)
         const notUploadedUrls = await instance.model.find({
             $or: [
                 { uploadedToFb: false },
