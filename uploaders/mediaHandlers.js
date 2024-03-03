@@ -20,7 +20,7 @@ let revivingSoulzIgUserId = "17841464678870993"
 // animeto
 const { animetoTags } = require("../assets/tags");
 const AnimetoModel = require("../models/animeto/URLmodel");
-let animetoPageAccessToken = "EAAK69zoePbMBO06gQwPTib340A8XmDqKhtIIs1gsUXymujNdnKQnUwsTNn3ibXZCZBCkjx01YEJnu0psddSoSBjZABLJFWTxmuKZA9kukXTTZCNt9NM7T88LzMwN6YBmX0ZAL2mQDxtYhKfD05Hv6E6jJgmQfECltpfcelnsFoU1nJHGzZCHNfkfECVlkKIIKeH91FNCMjfpJ0FKZCy1fNoJAWRnkZAy4Sq2jGqVVRHYZD"
+let animetoPageAccessToken = "EAAK69zoePbMBOya2sDlkZAriTIFaccZBiDzoU7e1tjE7LEVX5PEZCiFZCVLkfUuHJvQT2fvH78G0cwkJvA27eo4iH6oYHbV2fhrbg4JlKd7vqZB8NdFZCwdZAm1N3BVZC2XwViMyYgIQsLE7kzoJY0VbvZCFYvJOZAGUUsrectVpXro7BedYKUUG6UiNF8xuFrnfSB8QZA2tc4RFY7ZB6Q7L5T0gJDeu6M6zbQlqQ2cvougZD"
 let animetoFbUserId = "278856668633727"
 let animeIgUserId = "17841465133015574"
 
@@ -105,6 +105,7 @@ const uploadToYoutube = async (notUploadedUrls, title, tags, instance) => {
 
 const uploader = async (instance) => {
     try {
+        console.log("initiated for", instance.name)
         const notUploadedUrls = await instance.model.find({
             $or: [
                 { uploadedToFb: false },

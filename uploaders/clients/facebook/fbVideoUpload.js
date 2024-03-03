@@ -23,20 +23,33 @@ const fbVideoUpload = async (fbPageID, pageAccessToken, file_url, tags, title, d
             return { state: false }
         }
         tags.unshift(title)
-        setTimeout(async () => {
-            const publishBase = baseURL + `?access_token=${pageAccessToken}&video_id=${video_id}&upload_phase=finish&video_state=PUBLISHED&description=${tags.join("%20").replaceAll("#", "%23").replaceAll(" ", "%20")}&title=${title.replaceAll(" ", "%20")}`
-            const publishVideo = await axios.post(publishBase, null, { headers: headers })
-            if (publishVideo.status !== 200) {
-                return { state: false }
+        let uploadIteration = 0
+        const interval = setInterval(async () => {
+            uploadIteration = uploadIteration + 1
+            console.log(uploadIteration <= 10)
+            if (uploadIteration <= 10) {
+                const publishBase = baseURL + `?access_token=${pageAccessToken}&video_id=${video_id}&upload_phase=finish&video_state=PUBLISHED&description=${tags.join("%20").replaceAll("#", "%23").replaceAll(" ", "%20")}&title=${title.replaceAll(" ", "%20")}`
+                try {
+                    console.log(uploadIteration)
+                    const publishVideo = await axios.post(publishBase, null, { headers: headers })
+                    if (publishVideo.status !== 200) {
+                        return { state: false }
+                    }
+                    else {
+                        // update mongo
+                        console.log("uploaded to fb")
+                        dbDoc.uploadedToFb = true
+                        await dbDoc.save()
+                        return { state: true };
+                    }
+                } catch (error) {
+                    console.log("Error", error.message, "posting in FB")
+                }
             }
             else {
-                // update mongo
-                console.log("uploaded to fb")
-                dbDoc.uploadedToFb = true
-                await dbDoc.save()
-                return { state: true };
+                clearInterval(interval)
             }
-        }, 20000);
+        }, 10000);
 
     } catch (error) {
         console.log(error.message)

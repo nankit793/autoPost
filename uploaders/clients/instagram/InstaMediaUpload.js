@@ -33,7 +33,7 @@ const publishMedia = async (IgID, responseID, accessToken, dbDoc) => {
                         }
                     })
                     .catch(error => {
-                        console.error('Error:', error.message);
+                        console.error('Error:', error.message, "Posting in IG");
                     });
             }
             mediaPublish()

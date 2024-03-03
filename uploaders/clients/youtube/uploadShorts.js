@@ -97,7 +97,7 @@ async function uploadVideoToYouTube(videoFilePath, youtubeClient, mediaFilePath,
         {
             onUploadProgress: (event) => {
                 const progress = Math.round((event.bytesRead / fileSize) * 100);
-                if (progress % 10 === 0) {
+                if (progress % 20 === 0) {
                     console.log(`${progress}% completed`);
                 }
             },
