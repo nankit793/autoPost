@@ -1,12 +1,14 @@
-require("./db")
-const express = require('express');
-const cron = require('node-cron');
+require("./db");
+const express = require("express");
+const cron = require("node-cron");
 var bodyParser = require("body-parser");
 const app = express();
 const PORT = 3000;
-require("./runServer")
-const { initiateUploader } = require('./uploaders/mediaHandlers');
-const { generateFbUserToken } = require("./controllers/tokens/generateFbUserToken");
+require("./runServer");
+const { initiateUploader } = require("./uploaders/mediaHandlers");
+const {
+  generateFbUserToken,
+} = require("./controllers/tokens/generateFbUserToken");
 
 // Google Drive API configuration
 app.use(
@@ -16,19 +18,27 @@ app.use(
 );
 
 app.use(bodyParser.json());
-const indianTimezone = 'Asia/Kolkata';
+const indianTimezone = "Asia/Kolkata";
 
-cron.schedule('0 11 * * *', async () => {
-  await initiateUploader()
-}, {
-  timezone: indianTimezone
-});
+cron.schedule(
+  "0 11 * * *",
+  async () => {
+    await initiateUploader();
+  },
+  {
+    timezone: indianTimezone,
+  }
+);
 
-cron.schedule('0 22 * * *', async () => {
-  await initiateUploader()
-}, {
-  timezone: indianTimezone
-});
+cron.schedule(
+  "0 22 * * *",
+  async () => {
+    await initiateUploader();
+  },
+  {
+    timezone: indianTimezone,
+  }
+);
 
 // token generators
 // cron.schedule('0 0 10 * *', async () => {
@@ -44,13 +54,11 @@ cron.schedule('0 22 * * *', async () => {
 // });
 
 // Start the Express server
-app.get('/', (req, res) => {
-  res.send('Hello, this is your Express server!');
+app.get("/", (req, res) => {
+  res.send("Hello, this is your Express server!");
 });
 
-app.use('/api', require("./routes/index"));
+app.use("/api", require("./routes/index"));
 app.listen(PORT, () => {
   console.log(`Server is running`);
 });
-
-
