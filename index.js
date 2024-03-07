@@ -4,6 +4,7 @@ const cron = require("node-cron");
 var bodyParser = require("body-parser");
 const app = express();
 const PORT = 3000;
+const cors = require("cors");
 require("./runServer");
 const { initiateUploader } = require("./uploaders/mediaHandlers");
 const {
@@ -16,6 +17,15 @@ app.use(
     extended: true,
   })
 );
+
+const corsOptions = {
+  origin: "http://localhost:3001", // Allow only requests from this origin
+  methods: ["GET", "POST"], // Allow only GET and POST requests
+  allowedHeaders: ["Content-Type", "Authorization"], // Allow only specific headers
+};
+
+// Use CORS middleware with options
+app.use(cors(corsOptions));
 
 app.use(bodyParser.json());
 const indianTimezone = "Asia/Kolkata";

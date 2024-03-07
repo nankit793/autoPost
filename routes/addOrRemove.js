@@ -5,14 +5,27 @@ const { deleteMany } = require("../controllers/socialUrls/deleteMany");
 const { Info } = require("../controllers/socialUrls/info");
 const { deleteURL } = require("../controllers/socialUrls/removeURL");
 
-const { instances } = require("../assets/socialData");
+const { instances, userData } = require("../assets/socialData");
 
-app.post("/addURL", async (req, res) => {
+const auth = (req, res, next) => {
+  const userApps = userData[req.userid];
+  const { appId } = req.body;
+  const isValidReq = userApps.apps.find((item) => {
+    return item.id == appId;
+  });
+  if (!isValidReq) {
+    return res
+      .status(401)
+      .json({ message: "This is not your app", state: false });
+  }
+  next();
+};
+app.post("/addURL", auth, async (req, res) => {
   try {
-    const { url, appId } = req.query || "";
+    const { url, appId } = req.body || "";
     if (!url) return res.status(401).json({ message: "URL to de bhadwe" });
 
-    if (!appId) return res.status(400).json({ message: "require APP ID" });
+    if (!appId) return res.status(401).json({ message: "require APP ID" });
 
     const app = instances[appId];
 
@@ -24,7 +37,7 @@ app.post("/addURL", async (req, res) => {
     if (add.state)
       return res
         .status(200)
-        .json({ message: add.message || "Success", doc: add?.doc || {} });
+        .json({ message: add.message || "Success", data: add?.doc || {} });
     else return res.status(401).json({ message: add.message || "error" });
   } catch (error) {
     res
@@ -34,7 +47,7 @@ app.post("/addURL", async (req, res) => {
 });
 
 // Endpoint to remove URLs uploaded to every social media platform
-app.delete("/clearURL", async (req, res) => {
+app.delete("/clearURL", auth, async (req, res) => {
   try {
     const { appId } = req.query || {};
     if (!appId) return res.status(400).json({ message: "require APP ID" });
@@ -55,7 +68,7 @@ app.delete("/clearURL", async (req, res) => {
   }
 });
 
-app.get("/info", async (req, res) => {
+app.get("/info", auth, async (req, res) => {
   try {
     const { appId } = req.query || {};
     if (!appId) return res.status(400).json({ message: "require APP ID" });
@@ -78,7 +91,7 @@ app.get("/info", async (req, res) => {
   }
 });
 
-app.delete("/removeURL", async (req, res) => {
+app.delete("/removeURL", auth, async (req, res) => {
   try {
     const { url, appId } = req.query;
     if (!url) return res.status(401).json({ message: "URL to de bhadwe" });
@@ -101,4 +114,12 @@ app.delete("/removeURL", async (req, res) => {
     });
   }
 });
+
+app.post("/auth", async (req, res) => {
+  const userApps = userData[req.userid];
+  return res
+    .status(200)
+    .json({ controlledApps: userApps?.apps || null, state: true });
+});
+
 module.exports = app;

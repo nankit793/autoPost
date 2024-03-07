@@ -114,7 +114,7 @@ const uploader = async (instance) => {
     await uploadToInsta(notUploadedUrls, title, tags, instance);
   } catch (error) {
     console.log(error);
-    throw new Error("Server Error, please contant developer");
+    throw Error("Server Error, please contant developer");
     // return { message: "Server Error, please contant developer", state: false }
   }
 };

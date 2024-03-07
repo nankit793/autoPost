@@ -5,8 +5,8 @@ const { verifyRefreshTokens } = require("./verifyTokens");
 const adminVerification = async (req, res, next) => {
   try {
     const validate = basicValidation(req, res);
-    const refreshToken = req.headers.refreshtoken;
-    const { appId } = req.query;
+    const refreshToken = req.headers.authorization?.split(" ")[1];
+
     if (validate) {
       const verifyRefresh = await verifyRefreshTokens(refreshToken);
 
@@ -19,23 +19,15 @@ const adminVerification = async (req, res, next) => {
         const user = await authTokenModel.findOne({ userid });
         if (user.token !== refreshToken) {
           return res
-            .status(401)
+            .status(403)
             .json({ message: "Verification failed", state: false });
         }
-        const userApps = userData[userid];
-        const isValidReq = userApps.apps.find((item) => {
-          return item === appId;
-        });
 
-        if (!isValidReq) {
-          return res
-            .status(401)
-            .json({ message: "This is not your app", state: false });
-        }
+        req.userid = userid;
         return next();
       }
       return res
-        .status(401)
+        .status(403)
         .json({ message: "Verification failed", state: false });
     }
     return res;
@@ -47,9 +39,9 @@ const adminVerification = async (req, res, next) => {
 };
 
 const basicValidation = (req, res) => {
-  const refreshToken = req.headers.refreshtoken;
+  const refreshToken = req.headers.authorization?.split(" ")[1];
   if (!refreshToken) {
-    res.status(401).json({
+    res.status(403).json({
       message: "token not provided",
       state: false,
     });

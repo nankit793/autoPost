@@ -27,7 +27,7 @@ app.post("/login", async (req, res) => {
   await dbUser.save();
 
   return res.status(200).json({
-    state: false,
+    state: true,
     message: "login success",
     controlledApps: user.apps,
     token,

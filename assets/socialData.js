@@ -5,7 +5,11 @@ const redito = "1357843254";
 const userData = {
   "ritikbkl152@gmail.com": {
     password: "password@123",
-    apps: [animeto, redito, revivingSoulz],
+    apps: [
+      { name: "Animeto", id: animeto },
+      { name: "Redito", id: redito },
+      { name: "Reviving Soulz", id: revivingSoulz },
+    ],
   },
 };
 
@@ -51,7 +55,7 @@ let revivingSoulzIgUserId = "17841464678870993";
 // animeto
 const AnimetoModel = require("../models/animeto/URLmodel");
 let animetoPageAccessToken =
-  "EAAK69zoePbMBOZCe7dy1fKBcHVigcsMySQ67nXu8ZAx8zAv0un3vPXO56n0EZCB7eDLuEtxB2S0wPiNRYCU6x6Sl4KDPUvVKlGDHkVJspVQj3JtsFYY2TRNZBcFBVjM6sN6Pc2D1WBE2pVBUzHIHKTGZCLozQyXf11PH78XljuHsEsZB6oe1nLzV2BICkbMbZADZC5lCuVy6cWtoONJfZCpMEIS16HtEHhDXD2vtcPoUZD";
+  "EAAK69zoePbMBO2bMMV4EX2OkYVZCbxkDYzZAmmCo0zDATVJFXqKdCPr4Edbn7qmWCJpkq32KRZCFTPI1Ct7Ewh8iieljA4xKGEjnYjTpfjWDEgwk1wHyyhh551PH9U8QrXmbPD4Ywl5s8ZBjBP9ZAJCZC8Lc2jnYBzyaUdxKTrpkyrTFuVg6avV4PjPE0fb9tuE8BovZB1RDaEZCcZCgZD";
 let animetoFbUserId = "278856668633727";
 let animeIgUserId = "17841465133015574";
 
@@ -59,7 +63,7 @@ let animeIgUserId = "17841465133015574";
 const {} = require("../assets/tags");
 const ReditoModel = require("../models/redito/URLmodel");
 let reditoPageAccessToken =
-  "EAAF6FTVT2xABO1uZCQEvDbYPpQcJCIQ3firKsZCwvtc5nGovZCoRvYZCh0LZAK3k7huLBV0WAyIZAapiNZAelPV6qvpJO62CZBDeAnFq3Rhtxr2MFfc7PymG5PyPlYH3ZBRXSUdaZCa16Psr6ZA2KVCTImGbVMfyNTIYQOy560Om7FUQtYgoZBLNimxlOEtdeIhl7KdEIo94P4lLZCeXlgPBqQHnym3T62QEmAVBQ2FlicP0ZD";
+  "EAAF6FTVT2xABO82yHrYOlZCMY1zDS9LgJrIttMfaA2kNnwg3S2C7dZBhiAbN1FAQdZAncWmwb2SE6uTOHCY4ir16465CwCcOjOLk2Qyu4n6LtZAZCSD7uwjF6bZBUFjDNJsSSPH6lQR4DtNArlcduADpkspMGdmZAeiOB6pNNlrhJVsdxehuVokPwgJ5bE8LZAgUQr2XiHZBrlcFa9ywZD";
 let redditoFbUserId = "249669224895258";
 let reditoIgUserId = "17841464791716146";
 

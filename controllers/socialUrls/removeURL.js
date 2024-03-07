@@ -8,11 +8,10 @@ const deleteURL = async (url, URLmodel, name) => {
     if (!element) {
       return { state: false, message: "This URL is not present" };
     }
-
     if (
-      element.uploadedToFb &&
-      element.uploadedToInstagram &&
-      element.uploadedToYoutube
+      !element.uploadedToFb &&
+      !element.uploadedToInstagram &&
+      !element.uploadedToYoutube
     ) {
       doc = await URLmodel.findOneAndDelete({ url });
       const { oAuth2Client } = await validateOauth(name);
