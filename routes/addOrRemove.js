@@ -9,7 +9,11 @@ const { instances, userData } = require("../assets/socialData");
 
 const auth = (req, res, next) => {
   const userApps = userData[req.userid];
-  const { appId } = req.body;
+  let { appId } = req.query;
+  if (!appId) {
+    appId = req.body?.appId;
+  }
+
   const isValidReq = userApps.apps.find((item) => {
     return item.id == appId;
   });
@@ -22,7 +26,7 @@ const auth = (req, res, next) => {
 };
 app.post("/addURL", auth, async (req, res) => {
   try {
-    const { url, appId } = req.body || "";
+    const { url, appId, title } = req.body || "";
     if (!url) return res.status(401).json({ message: "URL to de bhadwe" });
 
     if (!appId) return res.status(401).json({ message: "require APP ID" });
@@ -32,7 +36,7 @@ app.post("/addURL", auth, async (req, res) => {
     if (!app)
       return res.status(401).json({ message: "please, provide valid App ID" });
 
-    const add = await addURL(url, app.name, app.model);
+    const add = await addURL(url, app.name, app.model, title);
 
     if (add.state)
       return res
@@ -91,9 +95,9 @@ app.get("/info", auth, async (req, res) => {
   }
 });
 
-app.delete("/removeURL", auth, async (req, res) => {
+app.post("/removeURL", auth, async (req, res) => {
   try {
-    const { url, appId } = req.query;
+    const { url, appId } = req.body;
     if (!url) return res.status(401).json({ message: "URL to de bhadwe" });
 
     const app = instances[appId];

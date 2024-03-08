@@ -23,6 +23,7 @@ const uploadToInsta = async (notUploadedUrls, title, tags, instance) => {
 
   if (result) {
     console.log("initiated for instagram", instance.name);
+    title = result?.postTitle || title;
     const fileIdOnDrive = result?.driveFileId;
     const downloadURL = `https://drive.usercontent.google.com/u/2/uc?id=${fileIdOnDrive}`;
     let url = "";
@@ -49,6 +50,7 @@ const uploadToFB = async (notUploadedUrls, title, tags, instance) => {
 
   if (result) {
     console.log("initiated for facebook", instance.name);
+    title = result?.postTitle || title;
     const fileIdOnDrive = result?.driveFileId;
     if (result?.isImage) {
       let url = `https://graph.facebook.com/v19.0/${instance.fbUserId}/photos?url=https://drive.usercontent.google.com/u/2/uc?id=${fileIdOnDrive}&access_token=${instance.pageAccessToken}`;
@@ -73,6 +75,7 @@ const uploadToYoutube = async (notUploadedUrls, title, tags, instance) => {
   });
   if (result) {
     console.log("initiated for youtube", instance.name);
+    title = result?.postTitle || title;
     const fileIdOnDrive = result?.driveFileId;
     const videoUrl = `https://drive.usercontent.google.com/u/2/uc?id=${fileIdOnDrive}`;
     const { oAuth2Client } = await validateOauth(instance.name);

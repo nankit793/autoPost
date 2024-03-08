@@ -20,7 +20,10 @@ const adminVerification = async (req, res, next) => {
         if (user.token !== refreshToken) {
           return res
             .status(403)
-            .json({ message: "Verification failed", state: false });
+            .json({
+              message: "Verification failed, Please login again",
+              state: false,
+            });
         }
 
         req.userid = userid;
@@ -28,7 +31,10 @@ const adminVerification = async (req, res, next) => {
       }
       return res
         .status(403)
-        .json({ message: "Verification failed", state: false });
+        .json({
+          message: "Verification failed, Please login again",
+          state: false,
+        });
     }
     return res;
   } catch (error) {

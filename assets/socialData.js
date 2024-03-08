@@ -5,6 +5,10 @@ const redito = "1357843254";
 const userData = {
   "ritikbkl152@gmail.com": {
     password: "password@123",
+    apps: [{ name: "Animeto", id: animeto }],
+  },
+  admin: {
+    password: "ankitsabkapapa@123",
     apps: [
       { name: "Animeto", id: animeto },
       { name: "Redito", id: redito },
