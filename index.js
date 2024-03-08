@@ -18,8 +18,13 @@ app.use(
   })
 );
 
+// const corsOptions = {
+//   origin: "http://localhost:3001", // Allow only requests from this origin
+//   methods: ["GET", "POST"], // Allow only GET and POST requests
+//   allowedHeaders: ["Content-Type", "Authorization"], // Allow only specific headers
+// };
 const corsOptions = {
-  origin: "http://localhost:3001", // Allow only requests from this origin
+  origin: "https://autoposting.netlify.app", // Allow only requests from this origin
   methods: ["GET", "POST"], // Allow only GET and POST requests
   allowedHeaders: ["Content-Type", "Authorization"], // Allow only specific headers
 };
@@ -64,6 +69,7 @@ cron.schedule(
 // });
 
 // Start the Express server
+
 app.get("/", (req, res) => {
   res.send("Hello, this is your Express server!");
 });
