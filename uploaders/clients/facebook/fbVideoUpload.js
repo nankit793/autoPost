@@ -40,7 +40,7 @@ const fbVideoUpload = async (
           `?access_token=${pageAccessToken}&video_id=${video_id}&upload_phase=finish&video_state=PUBLISHED&description=${tags
             .join("%20")
             .replaceAll("#", "%23")
-            .replaceAll(" ", "%20")}&title=${title.replaceAll(" ", "%20")}`;
+            .replaceAll(" ", "%20")}`;
         try {
           const publishVideo = await axios.post(publishBase, null, {
             headers: headers,
