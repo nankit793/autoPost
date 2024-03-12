@@ -2,12 +2,11 @@ const axios = require("axios");
 
 const instaMediaUploader = async (IgID, dbDoc, accessToken, url) => {
   try {
-    await axios
+    return await axios
       .post(url)
       .then(async (response) => {
-        console.log("Response media: ", response.data);
         const responseID = response.data.id;
-        await publishMedia(IgID, responseID, accessToken, dbDoc);
+        return await publishMedia(IgID, responseID, accessToken, dbDoc);
       })
       .catch((error) => {
         console.error(
@@ -20,40 +19,46 @@ const instaMediaUploader = async (IgID, dbDoc, accessToken, url) => {
     throw error;
   }
 };
+
+const startPublish = async (
+  IgID,
+  responseID,
+  accessToken,
+  dbDoc,
+  uploadIteration
+) => {
+  return await axios
+    .post(
+      `https://graph.facebook.com/v19.0/${IgID}/media_publish?creation_id=${responseID}&access_token=${accessToken}`
+    )
+    .then(async (response) => {
+      if ((response.status = 200 && response.data)) {
+        dbDoc.uploadedToInstagram = true;
+        await dbDoc.save();
+        return { state: true };
+      }
+    })
+    .catch((error) => {
+      console.error("Try: ", uploadIteration, error.message, "Posting in IG");
+      return { state: false };
+    });
+};
+
 const publishMedia = async (IgID, responseID, accessToken, dbDoc) => {
-  let uploadIteration = 0;
-  const interval = setInterval(() => {
-    uploadIteration = uploadIteration + 1;
-    if (uploadIteration <= 10) {
-      const mediaPublish = async () => {
-        await axios
-          .post(
-            `https://graph.facebook.com/v19.0/${IgID}/media_publish?creation_id=${responseID}&access_token=${accessToken}`
-          )
-          .then(async (response) => {
-            if ((response.status = 200 && response.data)) {
-              clearInterval(interval);
-              console.log(response.data, "published at insta");
-              dbDoc.uploadedToInstagram = true;
-              await dbDoc.save();
-              return { state: true };
-            }
-          })
-          .catch((error) => {
-            console.error(
-              "Try: ",
-              uploadIteration,
-              error.message,
-              "Posting in IG"
-            );
-          });
-      };
-      mediaPublish();
-    } else {
-      clearInterval(interval);
-      return false;
+  const initiatePublish = async (n) => {
+    if (n > 10) {
+      return { state: false };
     }
-  }, 10000);
+    const res = await startPublish(IgID, responseID, accessToken, dbDoc, n);
+    if (res?.state) {
+      return { state: true };
+    } else {
+      await new Promise((resolve) => setTimeout(resolve, 10000));
+      return await initiatePublish(n + 1);
+    }
+  };
+  await new Promise((resolve) => setTimeout(resolve, 10000));
+  return await initiatePublish(0);
 };
 
 module.exports = { instaMediaUploader, publishMedia };

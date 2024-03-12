@@ -22,7 +22,6 @@ const uploadToInsta = async (notUploadedUrls, title, tags, instance) => {
   });
 
   if (result) {
-    console.log("initiated for instagram", instance.name);
     title = result?.postTitle || title;
     const fileIdOnDrive = result?.driveFileId;
     const downloadURL = `https://drive.usercontent.google.com/u/2/uc?id=${fileIdOnDrive}`;
@@ -38,9 +37,14 @@ const uploadToInsta = async (notUploadedUrls, title, tags, instance) => {
           .replaceAll("#", "%23")
           .replaceAll(" ", "%20")}`;
     }
-    await instaMediaUploader(instance.IgUserId, result, accessToken, url);
+    return await instaMediaUploader(
+      instance.IgUserId,
+      result,
+      accessToken,
+      url
+    );
   }
-  return;
+  return { state: false };
 };
 
 const uploadToFB = async (notUploadedUrls, title, tags, instance) => {
@@ -49,15 +53,14 @@ const uploadToFB = async (notUploadedUrls, title, tags, instance) => {
   });
 
   if (result) {
-    console.log("initiated for facebook", instance.name);
     title = result?.postTitle || title;
     const fileIdOnDrive = result?.driveFileId;
     if (result?.isImage) {
       let url = `https://graph.facebook.com/v19.0/${instance.fbUserId}/photos?url=https://drive.usercontent.google.com/u/2/uc?id=${fileIdOnDrive}&access_token=${instance.pageAccessToken}`;
-      await fbImageUplaod(result, url);
+      return await fbImageUplaod(result, url);
     } else if (result?.isReel) {
       let url = `https://drive.usercontent.google.com/u/2/uc?id=${fileIdOnDrive}`;
-      await fbVideoUpload(
+      return await fbVideoUpload(
         instance.fbUserId,
         instance.pageAccessToken,
         url,
@@ -66,6 +69,7 @@ const uploadToFB = async (notUploadedUrls, title, tags, instance) => {
         result
       );
     }
+    return { state: false };
   }
 };
 
@@ -74,7 +78,6 @@ const uploadToYoutube = async (notUploadedUrls, title, tags, instance) => {
     return !url.uploadedToYoutube;
   });
   if (result) {
-    console.log("initiated for youtube", instance.name);
     title = result?.postTitle || title;
     const fileIdOnDrive = result?.driveFileId;
     const videoUrl = `https://drive.usercontent.google.com/u/2/uc?id=${fileIdOnDrive}`;
@@ -88,7 +91,7 @@ const uploadToYoutube = async (notUploadedUrls, title, tags, instance) => {
       `./clients/youtube/youtubeMedia/${instance.name}`
     );
 
-    await uploadShorts(
+    return await uploadShorts(
       videoUrl,
       mediaFilePath,
       youtubeClient,
@@ -111,12 +114,28 @@ const uploader = async (instance) => {
 
     const title = randomTitle(instance.titles);
     const tags = randomTags(instance.tags);
-
-    await uploadToYoutube(notUploadedUrls, title, tags, instance);
-    await uploadToFB(notUploadedUrls, title, tags, instance);
-    await uploadToInsta(notUploadedUrls, title, tags, instance);
+    console.log(
+      "Initialized for",
+      instance.name,
+      "---------------------------"
+    );
+    const Start = new Date().getTime();
+    const yt = await uploadToYoutube(notUploadedUrls, title, tags, instance);
+    const fb = await uploadToFB(notUploadedUrls, title, tags, instance);
+    const ig = await uploadToInsta(notUploadedUrls, title, tags, instance);
+    const end = new Date().getTime();
+    console.log("Youtube: ", yt?.state ? "Uploaded" : "Not Uploaded");
+    console.log("Instaram: ", ig?.state ? "Uploaded" : "Not Uploaded");
+    console.log("Facebook: ", fb?.state ? "Uploaded" : "Not Uploaded");
+    console.log(
+      "Execution Time for",
+      instance.name,
+      ":",
+      (end - Start) / 1000,
+      "'s"
+    );
   } catch (error) {
-    console.log(error);
+    console.log(error.message);
     throw Error("Server Error, please contant developer");
     // return { message: "Server Error, please contant developer", state: false }
   }
@@ -126,11 +145,11 @@ const initiateUploader = async () => {
   try {
     for (let key in instances) {
       if (instances[key].active) {
-        uploader(instances[key]);
+        await uploader(instances[key]);
       }
     }
   } catch (error) {
-    console.log(error);
+    console.log(error.message);
   }
 };
 module.exports = { initiateUploader };

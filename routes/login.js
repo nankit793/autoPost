@@ -29,7 +29,6 @@ app.post("/login", async (req, res) => {
   return res.status(200).json({
     state: true,
     message: "login success",
-    controlledApps: user.apps,
     token,
   });
 });

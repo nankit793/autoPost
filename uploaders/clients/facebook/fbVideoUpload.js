@@ -1,4 +1,35 @@
 const axios = require("axios");
+const publishReel = async (
+  baseURL,
+  pageAccessToken,
+  video_id,
+  tags,
+  headers,
+  dbDoc,
+  uploadIteration
+) => {
+  const publishBase =
+    baseURL +
+    `?access_token=${pageAccessToken}&video_id=${video_id}&upload_phase=finish&video_state=PUBLISHED&description=${tags
+      .join("%20")
+      .replaceAll("#", "%23")
+      .replaceAll(" ", "%20")}`;
+  try {
+    const publishVideo = await axios.post(publishBase, null, {
+      headers: headers,
+    });
+    if (publishVideo.status !== 200) {
+      return { state: false };
+    } else {
+      // update mongo
+      dbDoc.uploadedToFb = true;
+      await dbDoc.save();
+      return { state: true };
+    }
+  } catch (error) {
+    console.log("Try: ", uploadIteration, error.message, "posting in FB");
+  }
+};
 const fbVideoUpload = async (
   fbPageID,
   pageAccessToken,
@@ -31,37 +62,29 @@ const fbVideoUpload = async (
       return { state: false };
     }
     tags.unshift(title);
-    let uploadIteration = 0;
-    const interval = setInterval(async () => {
-      if (uploadIteration <= 10) {
-        uploadIteration = uploadIteration + 1;
-        const publishBase =
-          baseURL +
-          `?access_token=${pageAccessToken}&video_id=${video_id}&upload_phase=finish&video_state=PUBLISHED&description=${tags
-            .join("%20")
-            .replaceAll("#", "%23")
-            .replaceAll(" ", "%20")}`;
-        try {
-          const publishVideo = await axios.post(publishBase, null, {
-            headers: headers,
-          });
-          if (publishVideo.status !== 200) {
-            return { state: false };
-          } else {
-            // update mongo
-            console.log("uploaded to fb");
-            dbDoc.uploadedToFb = true;
-            await dbDoc.save();
-            clearInterval(interval);
-            return { state: true };
-          }
-        } catch (error) {
-          console.log("Try: ", uploadIteration, error.message, "posting in FB");
-        }
-      } else {
-        clearInterval(interval);
+    const initiatePublish = async (n) => {
+      if (n > 10) {
+        return { state: false };
       }
-    }, 10000);
+      const res = await publishReel(
+        baseURL,
+        pageAccessToken,
+        video_id,
+        tags,
+        headers,
+        dbDoc,
+        n
+      );
+      if (res.state) {
+        return { state: true };
+      } else {
+        await new Promise((resolve) => setTimeout(resolve, 10000));
+        return await initiatePublish(n + 1);
+      }
+    };
+
+    await new Promise((resolve) => setTimeout(resolve, 10000));
+    return await initiatePublish(0);
   } catch (error) {
     console.log(error.message);
     return { state: false };
