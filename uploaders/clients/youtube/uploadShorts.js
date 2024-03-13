@@ -147,7 +147,7 @@ const uploadShorts = async (
       tags
     );
 
-    // await deleteFolderContents(mediaFilePath);
+    await deleteFolderContents(mediaFilePath);
 
     return upload;
   } catch (error) {
