@@ -62,7 +62,8 @@ async function trimVideoIfNeeded(mediaFilePath) {
         resolve({ state: true, path: outputFilePath });
       })
       .on("error", async (err) => {
-        resolve({ state: false, path: mediaFilePath });
+        console.log("error", err.message);
+        resolve({ state: true, path: mediaFilePath });
       })
       .run();
   });
@@ -91,6 +92,7 @@ async function uploadVideoToYouTube(
             },
             status: {
               privacyStatus: "public", // Set privacy status: public, private, or unlisted
+              selfDeclaredMadeForKids: false,
             },
           },
           media: {
