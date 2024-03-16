@@ -40,6 +40,7 @@ const URlmodelStruc = {
     type: Boolean,
     default: false,
   },
+  // tags: {type: Array, default: [] },
   postTitle: { type: String },
 };
 module.exports = { URlmodelStruc };
