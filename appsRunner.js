@@ -1,11 +1,12 @@
 const cron = require("node-cron");
 const axios = require("axios");
+const { initiateUploader } = require("./uploaders/mediaHandlers");
 
 const indianTimezone = "Asia/Kolkata";
 cron.schedule(
-  "55 21 * * *",
+  "0 11 * * *",
   async () => {
-    axios.get("https://autopost-1ah4.onrender.com");
+    await initiateUploader();
   },
   {
     timezone: indianTimezone,
@@ -13,9 +14,9 @@ cron.schedule(
 );
 
 cron.schedule(
-  "55 10 * * *",
+  "0 22 * * *",
   async () => {
-    axios.get("https://autopost-1ah4.onrender.com");
+    await initiateUploader();
   },
   {
     timezone: indianTimezone,
