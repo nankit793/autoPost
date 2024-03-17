@@ -12,7 +12,7 @@ const addURL = async (mediaLinks, name, URLmodel, title) => {
     isYoutube,
     isImage,
     isReel,
-    uploadedToYoutube,
+    isVideo,
     downURL,
   } = await checkReqs(mediaLinks);
   if (!state) {
@@ -30,7 +30,7 @@ const addURL = async (mediaLinks, name, URLmodel, title) => {
       isYoutube,
       isImage,
       isReel,
-      uploadedToYoutube,
+      isVideo,
       downURL,
       URLmodel,
       drive,

@@ -36,6 +36,8 @@ const uploadToInsta = async (notUploadedUrls, title, tags, instance) => {
           .join("%20")
           .replaceAll("#", "%23")
           .replaceAll(" ", "%20")}`;
+    } else if (result?.isVideo) {
+      return { state: false };
     }
     return await instaMediaUploader(
       instance.IgUserId,

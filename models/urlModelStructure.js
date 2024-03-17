@@ -40,6 +40,10 @@ const URlmodelStruc = {
     type: Boolean,
     default: false,
   },
+  isVideo: {
+    type: Boolean,
+    default: false,
+  },
   postTitle: { type: String },
 };
 module.exports = { URlmodelStruc };

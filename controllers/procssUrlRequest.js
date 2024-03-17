@@ -7,6 +7,8 @@ const {
 
 const processUrlRequest = async (params) => {
   try {
+    let uploadedToYoutube = false;
+    let uploadedToInstagram = false;
     const {
       mediaLinks,
       isFb,
@@ -14,10 +16,10 @@ const processUrlRequest = async (params) => {
       isYoutube,
       isImage,
       isReel,
-      uploadedToYoutube,
       downURL,
       URLmodel,
       drive,
+      isVideo,
       title,
     } = params;
     const doc = await URLmodel.findOne({ url: mediaLinks });
@@ -29,7 +31,10 @@ const processUrlRequest = async (params) => {
     if (isImage) {
       uploadedToYoutube = true;
       driveFileId = await uploadImageToDrive(downURL, drive);
-    } else if (isReel) {
+    } else if (isReel || isVideo) {
+      if (isVideo) {
+        uploadedToInstagram = true;
+      }
       driveFileId = await uploadtVideoToDrive(downURL, drive);
     }
 
@@ -40,8 +45,10 @@ const processUrlRequest = async (params) => {
       isYoutube,
       isImage,
       isReel,
+      isVideo,
       driveFileId,
       uploadedToYoutube,
+      uploadedToInstagram,
       postTitle: title,
     });
 
