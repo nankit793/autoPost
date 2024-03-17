@@ -40,6 +40,7 @@ const URlmodelStruc = {
     type: Boolean,
     default: false,
   },
+  // tags: {type: Array, default: [] },
   isVideo: {
     type: Boolean,
     default: false,
