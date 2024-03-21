@@ -124,7 +124,7 @@ const uploader = async (instance) => {
     const fb = await uploadToFB(notUploadedUrls, title, tags, instance);
     const ig = await uploadToInsta(notUploadedUrls, title, tags, instance);
     const end = new Date().getTime();
-    console.log("Youtube: ", yt?.state ? "Uploaded" : "Not Uploaded");
+    // console.log("Youtube: ", yt?.state ? "Uploaded" : "Not Uploaded");
     console.log("Instaram: ", ig?.state ? "Uploaded" : "Not Uploaded");
     console.log("Facebook: ", fb?.state ? "Uploaded" : "Not Uploaded");
     console.log(
