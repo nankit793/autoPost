@@ -5,8 +5,8 @@ var bodyParser = require("body-parser");
 const app = express();
 const PORT = 3000;
 const cors = require("cors");
-require("./appsRunner");
-require("./awsRunners");
+// require("./appsRunner");
+// require("./awsRunners");
 
 // Google Drive API configuration
 app.use(
