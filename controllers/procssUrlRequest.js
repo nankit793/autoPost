@@ -27,8 +27,8 @@ const processUrlRequest = async (params) => {
     }
 
     let driveFileId;
-    uploadedToYoutube = true;
     if (isImage) {
+      uploadedToYoutube = true;
       driveFileId = await uploadImageToDrive(downURL, drive);
     } else if (isReel) {
       driveFileId = await uploadtVideoToDrive(downURL, drive);
