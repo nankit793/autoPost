@@ -63,7 +63,7 @@ async function trimVideoIfNeeded(mediaFilePath) {
       })
       .on("error", async (err) => {
         console.log("error", err.message);
-        resolve({ state: true, path: mediaFilePath });
+        resolve({ state: true, path: inputFilePath });
       })
       .run();
   });
@@ -125,24 +125,28 @@ const uploadShorts = async (
   tags
 ) => {
   try {
+    await deleteFolderContents(mediaFilePath);
     const download = await downloadVideo(videoUrl, mediaFilePath);
 
     if (!download.state) {
       return { state: false };
     }
-    const trimmer = await trimVideoIfNeeded(
-      mediaFilePath,
-      youtubeClient,
-      model,
-      title,
-      tags
-    );
 
-    if (!trimmer.state) {
-      return { state: false };
-    }
+    // const trimmer = await trimVideoIfNeeded(
+    //   mediaFilePath,
+    //   youtubeClient,
+    //   model,
+    //   title,
+    //   tags
+    // );
+    // if (!trimmer.state) {
+    //   return { state: false };
+    // }
+
+    const downloadedFilePath = path.join(mediaFilePath, "downloaded.mp4");
+
     const upload = await uploadVideoToYouTube(
-      trimmer.path,
+      downloadedFilePath,
       youtubeClient,
       model,
       title,
