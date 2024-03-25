@@ -102,33 +102,57 @@ const uploadToYoutube = async (notUploadedUrls, title, tags, instance) => {
   }
 };
 
-const uploader = async (instance) => {
+const uploaderInstaAndFb = async (instance) => {
   try {
     const notUploadedUrls = await instance.model.find({
-      $or: [
-        { uploadedToFb: false },
-        { uploadedToInstagram: false },
-        { uploadedToYoutube: false },
-      ],
+      $or: [{ uploadedToFb: false }, { uploadedToInstagram: false }],
     });
 
     const title = randomTitle(instance.titles);
     const tags = randomTags(instance.tags);
     console.log(
-      "Initialized for",
+      "Initialized Insta And FB Upload for",
+      instance.name,
+      "---------------------------"
+    );
+    const Start = new Date().getTime();
+    const fb = await uploadToFB(notUploadedUrls, title, tags, instance);
+    const ig = await uploadToInsta(notUploadedUrls, title, tags, instance);
+    const end = new Date().getTime();
+    console.log("Instaram: ", ig?.state ? "Uploaded" : "Not Uploaded");
+    console.log("Facebook: ", fb?.state ? "Uploaded" : "Not Uploaded");
+    console.log(
+      "Execution Insta And FB Time for",
+      instance.name,
+      ":",
+      (end - Start) / 1000,
+      "'s"
+    );
+  } catch (error) {
+    console.log(error.message);
+    throw Error("Server Error, please contant developer");
+    // return { message: "Server Error, please contant developer", state: false }
+  }
+};
+const uploaderYoutube = async (instance) => {
+  try {
+    const notUploadedUrls = await instance.model.find({
+      $or: [{ uploadedToYoutube: false }],
+    });
+
+    const title = randomTitle(instance.titles);
+    const tags = randomTags(instance.tags);
+    console.log(
+      "Initialized Youtube upload for",
       instance.name,
       "---------------------------"
     );
     const Start = new Date().getTime();
     const yt = await uploadToYoutube(notUploadedUrls, title, tags, instance);
-    const fb = await uploadToFB(notUploadedUrls, title, tags, instance);
-    const ig = await uploadToInsta(notUploadedUrls, title, tags, instance);
     const end = new Date().getTime();
     console.log("Youtube: ", yt?.state ? "Uploaded" : "Not Uploaded");
-    console.log("Instaram: ", ig?.state ? "Uploaded" : "Not Uploaded");
-    console.log("Facebook: ", fb?.state ? "Uploaded" : "Not Uploaded");
     console.log(
-      "Execution Time for",
+      "Execution Youtube Time for",
       instance.name,
       ":",
       (end - Start) / 1000,
@@ -145,7 +169,12 @@ const initiateUploader = async () => {
   try {
     for (let key in instances) {
       if (instances[key].active) {
-        await uploader(instances[key]);
+        uploaderInstaAndFb(instances[key]);
+      }
+    }
+    for (let key in instances) {
+      if (instances[key].active) {
+        await uploaderYoutube(instances[key]);
       }
     }
   } catch (error) {
