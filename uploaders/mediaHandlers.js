@@ -10,6 +10,7 @@ const {
 } = require("../controllers/tokens/returnFbUserToken");
 const { randomTitle, randomTags } = require("../controllers/randomPostData");
 const { instances } = require("../assets/socialData");
+const { deleteMany } = require("../controllers/socialUrls/deleteMany");
 
 const uploadToInsta = async (notUploadedUrls, title, tags, instance) => {
   const { token } = await returnFbAccessToken(instance.name);
@@ -181,4 +182,18 @@ const initiateUploader = async () => {
     console.log(error.message);
   }
 };
-module.exports = { initiateUploader };
+
+const removeURLS = async () => {
+  try {
+    for (let key in instances) {
+      if (instances[key].active) {
+        console.log(instances[key]);
+        await deleteMany(instances[key].name, instances[key].model);
+      }
+    }
+  } catch (error) {
+    return;
+  }
+};
+
+module.exports = { initiateUploader, removeURLS };

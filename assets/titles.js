@@ -13,8 +13,11 @@ const animetoTitles = [
 ];
 
 const reditoTitles = [
-  "This is title",
-  "This may be title",
-  "this could also be title",
+  "What would you do?",
+  "What are your thoughts?",
+  "Can it be any better?",
+  "Reddit Story",
+  "#redditamazing",
+  "What's happening here?",
 ];
 module.exports = { revivingSoulzTiles, animetoTitles, reditoTitles };
