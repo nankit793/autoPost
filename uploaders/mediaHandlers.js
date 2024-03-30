@@ -187,7 +187,6 @@ const removeURLS = async () => {
   try {
     for (let key in instances) {
       if (instances[key].active) {
-        console.log(instances[key]);
         await deleteMany(instances[key].name, instances[key].model);
       }
     }

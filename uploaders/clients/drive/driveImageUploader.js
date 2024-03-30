@@ -1,38 +1,41 @@
-const { google } = require('googleapis');
+const { google } = require("googleapis");
 // const sharp = require('sharp');
-const stream = require('stream');
-const { downloadMedia } = require('./driveVideoUploader');
+const stream = require("stream");
+const { downloadMedia } = require("./driveVideoUploader");
 
 // Define the task to run every 30 seconds
-const uploadImageToDrive = async (url, drive) => {
-
+const uploadImageToDrive = async (url, drive, folderID = "", fileName = "") => {
   try {
     const imageBuffer = await downloadMedia(url);
-    // const jpegBuffer = await convertToJpeg(imageBuffer);
-    const fileIdOnDrive = await uploadToDrive(imageBuffer, drive);
-
-    return fileIdOnDrive
-
+    if (imageBuffer?.contentType?.includes("image")) {
+      const driveFileId = await uploadToDrive(
+        imageBuffer.data,
+        drive,
+        folderID,
+        fileName
+      );
+      return { state: true, driveFileId };
+    }
+    return {
+      state: false,
+      message: "Only images are accepted in Carousal",
+    };
   } catch (error) {
-    console.error('An error occurred during the task:', error.message);
-    return;
+    return { state: false, message: "contact developer" };
   }
 };
 
-// async function convertToJpeg(imageBuffer) {
-//   try {
-
-//     return await sharp(imageBuffer).jpeg().toBuffer();
-//   } catch (error) {
-//     console.error('Error converting image to JPEG:', error);
-//     throw error;
-//   }
-// }
-
-async function uploadToDrive(imageBuffer, drive) {
+async function uploadToDrive(imageBuffer, drive, folderID, fileName) {
   try {
+    let fileMetadata = {};
+    if (fileName && folderID) {
+      fileMetadata = {
+        parents: [folderID],
+      };
+    }
+
     const media = {
-      mimeType: 'image/jpeg',
+      mimeType: "image/jpeg",
       body: new stream.Readable({
         read() {
           this.push(imageBuffer);
@@ -42,24 +45,25 @@ async function uploadToDrive(imageBuffer, drive) {
     };
     const response = await drive.files.create({
       requestBody: {
-        name: 'converted_image.jpg',
-        mimeType: 'image/jpeg',
+        name: fileName || "converted_image.jpg",
+        mimeType: "image/jpeg",
+        parents: folderID ? [folderID] : [],
       },
-      media
+      resource: fileMetadata,
+      media,
     });
     await drive.permissions.create({
       fileId: response.data.id,
       requestBody: {
-        role: 'reader',
-        type: 'anyone',
+        role: "reader",
+        type: "anyone",
       },
     });
     return response.data.id;
   } catch (error) {
-    console.error('Error uploading to Google Drive:', error);
+    console.error("Error uploading to Google Drive:", error);
     throw error;
   }
 }
 
-
-module.exports = { uploadImageToDrive }
+module.exports = { uploadImageToDrive };
