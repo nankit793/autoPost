@@ -7,6 +7,7 @@ const {
 
 const processUrlRequest = async (params) => {
   try {
+    let uploadedToYoutube = false;
     const {
       mediaLinks,
       isFb,
@@ -14,12 +15,12 @@ const processUrlRequest = async (params) => {
       isYoutube,
       isImage,
       isReel,
-      uploadedToYoutube,
       downURL,
       URLmodel,
       drive,
       title,
     } = params;
+
     const doc = await URLmodel.findOne({ url: mediaLinks });
     if (doc) {
       return { state: "false", message: "URL already added" };

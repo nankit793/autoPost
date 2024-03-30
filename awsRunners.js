@@ -37,7 +37,9 @@ cron.schedule(
 cron.schedule(
   "55 21 * * *",
   async () => {
-    axios.get("https://autopost-1ah4.onrender.com");
+    console.log("10PM posting");
+    const a = await axios.get("https://autopost-1ah4.onrender.com");
+    console.log(a);
   },
   {
     timezone: indianTimezone,
@@ -47,7 +49,9 @@ cron.schedule(
 cron.schedule(
   "55 10 * * *",
   async () => {
-    axios.get("https://autopost-1ah4.onrender.com");
+    console.log("11AM posting");
+    const a = await axios.get("https://autopost-1ah4.onrender.com");
+    console.log(a);
   },
   {
     timezone: indianTimezone,

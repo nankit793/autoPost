@@ -80,7 +80,7 @@ const instances = {
     UrlModelRevSoulz,
     revivingSoulzTiles,
     animetoTags,
-    true
+    false
   ),
   [sparks.animeto]: new SocialData(
     animeIgUserId,
