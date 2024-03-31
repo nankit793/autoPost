@@ -1,61 +1,61 @@
-const cron = require("node-cron");
-const axios = require("axios");
-const {
-  generateFbUserToken,
-} = require("./controllers/tokens/generateFbUserToken");
+// const cron = require("node-cron");
+// const axios = require("axios");
+// const {
+//   generateFbUserToken,
+// } = require("./controllers/tokens/generateFbUserToken");
 
-const indianTimezone = "Asia/Kolkata";
-// token generators
-cron.schedule(
-  "0 0 10 * *",
-  async () => {
-    await generateFbUserToken(
-      "f4b3d6ab886f041f78d5b8cc11c0f7d5",
-      693336926299891,
-      "revivingSoulz"
-    );
-  },
-  {
-    timezone: indianTimezone,
-  }
-);
+// const indianTimezone = "Asia/Kolkata";
+// // token generators
+// cron.schedule(
+//   "0 0 10 * *",
+//   async () => {
+//     await generateFbUserToken(
+//       "f4b3d6ab886f041f78d5b8cc11c0f7d5",
+//       693336926299891,
+//       "revivingSoulz"
+//     );
+//   },
+//   {
+//     timezone: indianTimezone,
+//   }
+// );
 
-cron.schedule(
-  "0 0 21 * *",
-  async () => {
-    await generateFbUserToken(
-      "f4b3d6ab886f041f78d5b8cc11c0f7d5",
-      693336926299891,
-      "revivingSoulz"
-    );
-  },
-  {
-    timezone: indianTimezone,
-  }
-);
+// cron.schedule(
+//   "0 0 21 * *",
+//   async () => {
+//     await generateFbUserToken(
+//       "f4b3d6ab886f041f78d5b8cc11c0f7d5",
+//       693336926299891,
+//       "revivingSoulz"
+//     );
+//   },
+//   {
+//     timezone: indianTimezone,
+//   }
+// );
 
-cron.schedule(
-  "55 21 * * *",
-  async () => {
-    console.log("10PM posting");
-    const a = await axios.get("https://autopost-1ah4.onrender.com");
-    console.log(a);
-  },
-  {
-    timezone: indianTimezone,
-  }
-);
+// cron.schedule(
+//   "55 21 * * *",
+//   async () => {
+//     console.log("10PM posting");
+//     const a = await axios.get("https://autopost-1ah4.onrender.com");
+//     console.log(a);
+//   },
+//   {
+//     timezone: indianTimezone,
+//   }
+// );
 
-cron.schedule(
-  "55 10 * * *",
-  async () => {
-    console.log("11AM posting");
-    const a = await axios.get("https://autopost-1ah4.onrender.com");
-    console.log(a);
-  },
-  {
-    timezone: indianTimezone,
-  }
-);
+// cron.schedule(
+//   "55 10 * * *",
+//   async () => {
+//     console.log("11AM posting");
+//     const a = await axios.get("https://autopost-1ah4.onrender.com");
+//     console.log(a);
+//   },
+//   {
+//     timezone: indianTimezone,
+//   }
+// );
 
-// Start the Express server
+// // Start the Express server
