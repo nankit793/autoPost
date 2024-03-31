@@ -14,6 +14,7 @@ const addURL = async (mediaLinks, name, URLmodel, title) => {
     isReel,
     uploadedToYoutube,
     downURL,
+    isCarousel,
   } = await checkReqs(mediaLinks);
   if (!state) {
     return { state: false, message: message || "Please contact developer" };
@@ -35,6 +36,7 @@ const addURL = async (mediaLinks, name, URLmodel, title) => {
       URLmodel,
       drive,
       title,
+      isCarousel,
     };
     const processReq = await processUrlRequest(params);
 

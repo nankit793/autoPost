@@ -15,6 +15,10 @@ const userData = {
       { name: "Reviving Soulz", id: revivingSoulz },
     ],
   },
+  testing: {
+    password: "testinghoribc",
+    apps: [{ name: "Reviving Soulz", id: revivingSoulz }],
+  },
 };
 
 const sparks = {
@@ -80,7 +84,7 @@ const instances = {
     UrlModelRevSoulz,
     revivingSoulzTiles,
     animetoTags,
-    false
+    true
   ),
   [sparks.animeto]: new SocialData(
     animeIgUserId,
@@ -90,7 +94,7 @@ const instances = {
     AnimetoModel,
     animetoTitles,
     animetoTags,
-    true
+    false
   ),
   [sparks.redito]: new SocialData(
     reditoIgUserId,
@@ -100,7 +104,7 @@ const instances = {
     ReditoModel,
     reditoTitles,
     reditoTags,
-    true
+    false
   ),
 };
 module.exports = { instances, userData };

@@ -1,12 +1,12 @@
 const axios = require("axios");
 
-const instaMediaUploader = async (IgID, dbDoc, accessToken, url) => {
+const generateContainer = async (url) => {
   try {
     return await axios
       .post(url)
       .then(async (response) => {
         const responseID = response.data.id;
-        return await publishMedia(IgID, responseID, accessToken, dbDoc);
+        return responseID;
       })
       .catch((error) => {
         console.error(
@@ -14,6 +14,16 @@ const instaMediaUploader = async (IgID, dbDoc, accessToken, url) => {
           error.response ? error.response.data : error.message
         );
       });
+  } catch (error) {
+    console.error("Error downloading image:", error.message);
+    throw error;
+  }
+};
+
+const instaMediaUploader = async (IgID, dbDoc, accessToken, url) => {
+  try {
+    const responseID = await generateContainer(url);
+    return await publishMedia(IgID, responseID, accessToken, dbDoc);
   } catch (error) {
     console.error("Error downloading image:", error.message);
     throw error;
@@ -61,4 +71,4 @@ const publishMedia = async (IgID, responseID, accessToken, dbDoc) => {
   return await initiatePublish(0);
 };
 
-module.exports = { instaMediaUploader, publishMedia };
+module.exports = { instaMediaUploader, publishMedia, generateContainer };
