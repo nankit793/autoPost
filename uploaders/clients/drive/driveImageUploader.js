@@ -14,7 +14,7 @@ const uploadImageToDrive = async (url, drive, folderID = "", fileName = "") => {
         folderID,
         fileName
       );
-      return { state: true, driveFileId, isImage: ture };
+      return { state: true, driveFileId, isImage: true };
     }
     return {
       state: false,
