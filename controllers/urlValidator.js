@@ -53,7 +53,7 @@ const checkReqs = async (mediaLinks) => {
     ) {
       return {
         state: false,
-        message: "Please upload only Reel, Image or Carousel",
+        message: "Please upload only Reel or Image",
         isFb,
         isInstagram,
         isYoutube,
