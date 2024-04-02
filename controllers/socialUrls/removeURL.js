@@ -8,23 +8,11 @@ const deleteURL = async (url, URLmodel, name) => {
     if (!element) {
       return { state: false, message: "This URL is not present" };
     }
-    if (
-      !element.uploadedToFb &&
-      !element.uploadedToInstagram &&
-      !element.uploadedToYoutube
-    ) {
-      doc = await URLmodel.findOneAndDelete({ url });
-      const { oAuth2Client } = await validateOauth(name);
-      const drive = google.drive({ version: "v3", auth: oAuth2Client });
-      await deleteDocsFromDrive([doc], drive);
-      return { state: true, message: "URL removed successfully" };
-    } else {
-      return {
-        state: false,
-        message:
-          "seems like url is uploaded in at least one social media, contact developer",
-      };
-    }
+    doc = await URLmodel.findOneAndDelete({ url });
+    const { oAuth2Client } = await validateOauth(name);
+    const drive = google.drive({ version: "v3", auth: oAuth2Client });
+    await deleteDocsFromDrive([doc], drive);
+    return { state: true, message: "URL removed successfully" };
   } catch (error) {
     return {
       state: false,

@@ -128,4 +128,6 @@ const reditoTags = [
   "#redditbest",
 ];
 
-module.exports = { animetoTags, revivingSoulzTags, reditoTags };
+const missoginieTags = [];
+
+module.exports = { animetoTags, revivingSoulzTags, reditoTags, missoginieTags };

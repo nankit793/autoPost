@@ -1,7 +1,7 @@
 const revivingSoulz = "1584356593";
 const animeto = "1231454352";
 const redito = "1357843254";
-
+const missoginie = "1923844210";
 const userData = {
   "ritikbkl152@gmail.com": {
     password: "password@123",
@@ -15,12 +15,17 @@ const userData = {
       { name: "Reviving Soulz", id: revivingSoulz },
     ],
   },
+  missoginie: {
+    password: "missoginie@123",
+    apps: [{ name: "missoginie", id: missoginie }],
+  },
 };
 
 const sparks = {
   revivingSoulz,
   animeto,
   redito,
+  missoginie,
 };
 
 class SocialData {
@@ -46,8 +51,13 @@ class SocialData {
 }
 
 //generals
-const { animetoTags, reditoTags } = require("../assets/tags");
-const { revivingSoulzTiles, reditoTitles, animetoTitles } = require("./titles");
+const { animetoTags, reditoTags, missoginieTags } = require("../assets/tags");
+const {
+  revivingSoulzTiles,
+  reditoTitles,
+  animetoTitles,
+  missoginieTitles,
+} = require("./titles");
 
 //revigingSoulz
 const UrlModelRevSoulz = require("../models/revivingSoluz/URLmodel");
@@ -64,12 +74,18 @@ let animetoFbUserId = "278856668633727";
 let animeIgUserId = "17841465133015574";
 
 // redito
-const {} = require("../assets/tags");
 const ReditoModel = require("../models/redito/URLmodel");
 let reditoPageAccessToken =
   "EAAF6FTVT2xABO82yHrYOlZCMY1zDS9LgJrIttMfaA2kNnwg3S2C7dZBhiAbN1FAQdZAncWmwb2SE6uTOHCY4ir16465CwCcOjOLk2Qyu4n6LtZAZCSD7uwjF6bZBUFjDNJsSSPH6lQR4DtNArlcduADpkspMGdmZAeiOB6pNNlrhJVsdxehuVokPwgJ5bE8LZAgUQr2XiHZBrlcFa9ywZD";
 let redditoFbUserId = "249669224895258";
 let reditoIgUserId = "17841464791716146";
+
+// missoginie
+const MissoGinieModel = require("../models/missoginie/URLmodel");
+let missoginiePageAccessToken =
+  "EAAK69zoePbMBOZCStAKURwDZBZBUKmGKnebB50OUWmtKwZAxZBIe2TLWXNftswuvsdNveqJK0FdvYcW82OpzV4LwJsd8vW3eyasZClQuXlkSN9DZAaIVzMbAVhAZCmXvcdaVJcbZBtrAgWMTAATryciuKvZCHXQ6THS1RevPSKRJEZCr3EuPRZAI9nea9BBOIm6tpr8iUjnBfATwPNjZAfg4ZD";
+let missoginieFbUserId = "278856668633727";
+let missoginieIgUserId = "17841465892488198";
 
 const instances = {
   [sparks.revivingSoulz]: new SocialData(
@@ -100,6 +116,16 @@ const instances = {
     ReditoModel,
     reditoTitles,
     reditoTags,
+    true
+  ),
+  [sparks.missoginie]: new SocialData(
+    missoginieIgUserId,
+    missoginieFbUserId,
+    missoginiePageAccessToken,
+    "missoginie",
+    MissoGinieModel,
+    missoginieTitles,
+    missoginieTags,
     true
   ),
 };

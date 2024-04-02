@@ -20,4 +20,17 @@ const reditoTitles = [
   "#redditamazing",
   "What's happening here?",
 ];
-module.exports = { revivingSoulzTiles, animetoTitles, reditoTitles };
+const missoginieTitles = [
+  "What would you do?",
+  "What are your thoughts?",
+  "Can it be any better?",
+  "Reddit Story",
+  "#redditamazing",
+  "What's happening here?",
+];
+module.exports = {
+  revivingSoulzTiles,
+  animetoTitles,
+  reditoTitles,
+  missoginieTitles,
+};
