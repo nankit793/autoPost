@@ -3,6 +3,7 @@ const axios = require("axios");
 const { initiateUploader, removeURLS } = require("./uploaders/mediaHandlers");
 
 const indianTimezone = "Asia/Kolkata";
+
 cron.schedule(
   "0 11 * * *",
   async () => {
@@ -12,7 +13,6 @@ cron.schedule(
     timezone: indianTimezone,
   }
 );
-
 cron.schedule(
   "0 22 * * *",
   async () => {
@@ -22,6 +22,7 @@ cron.schedule(
     timezone: indianTimezone,
   }
 );
+
 cron.schedule(
   "0 5 * * *",
   async () => {

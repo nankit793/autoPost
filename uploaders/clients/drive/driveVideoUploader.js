@@ -1,31 +1,32 @@
-const axios = require('axios');
-const stream = require('stream');
+const axios = require("axios");
+const stream = require("stream");
 
 async function uploadtVideoToDrive(url, drive) {
-
-  const videoBuffer = await downloadMedia(url);
-  const driveLink = await uploadToDrive(videoBuffer, drive);
-
-  return driveLink
+  try {
+    const videoBuffer = await downloadMedia(url);
+    const driveFileId = await uploadToDrive(videoBuffer.data.data, drive);
+    return { state: true, driveFileId };
+  } catch (error) {
+    return { state: false, message: "Contact developer" };
+  }
 }
 
 async function uploadToDrive(videoBuffer, drive) {
   try {
     const media = {
-      mimeType: 'video/mp4',
+      mimeType: "video/mp4",
       body: new stream.Readable({
         read() {
           this.push(videoBuffer);
           this.push(null);
         },
       }),
-
     };
 
     const response = await drive.files.create({
       requestBody: {
-        name: 'converted_video.mp4',
-        mimeType: 'video/mp4',
+        name: "converted_video.mp4",
+        mimeType: "video/mp4",
       },
       media,
     });
@@ -35,26 +36,26 @@ async function uploadToDrive(videoBuffer, drive) {
     await drive.permissions.create({
       fileId,
       requestBody: {
-        role: 'reader',
-        type: 'anyone',
+        role: "reader",
+        type: "anyone",
       },
     });
     return fileId;
   } catch (error) {
-    console.error('Error uploading to Google Drive:', error);
+    console.error("Error uploading to Google Drive:", error);
     throw error;
   }
 }
 
 async function downloadMedia(url) {
   try {
-    const response = await axios.get(url, { responseType: 'arraybuffer' });
-    return Buffer.from(response.data, 'binary');
+    const response = await axios.get(url, { responseType: "arraybuffer" });
+    const contentType = response.headers["content-type"];
+    return { contentType, data: Buffer.from(response.data, "binary") };
   } catch (error) {
-    console.error('Error downloading video:', error);
+    console.error("Error downloading video:", error);
     throw error;
   }
 }
 
-
-module.exports = { uploadtVideoToDrive, downloadMedia }
+module.exports = { uploadtVideoToDrive, downloadMedia };

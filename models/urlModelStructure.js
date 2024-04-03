@@ -40,6 +40,14 @@ const URlmodelStruc = {
     type: Boolean,
     default: false,
   },
+  isCarousel: {
+    type: Boolean,
+    default: false,
+  },
+  carouselError: {
+    type: String,
+    default: "",
+  },
   // tags: {type: Array, default: [] },
   postTitle: { type: String },
 };

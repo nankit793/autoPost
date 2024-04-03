@@ -28,6 +28,7 @@ const publishReel = async (
     }
   } catch (error) {
     console.log("Try: ", uploadIteration, error.message, "posting in FB");
+    return { state: false };
   }
 };
 const fbVideoUpload = async (
@@ -48,7 +49,7 @@ const fbVideoUpload = async (
       return { state: false };
     }
     const { video_id, upload_url } = initiateUploadResponse.data;
-
+    console.log(video_id, upload_url);
     const headers = {
       Authorization: `OAuth ${pageAccessToken}`,
       file_url,
@@ -86,7 +87,7 @@ const fbVideoUpload = async (
     await new Promise((resolve) => setTimeout(resolve, 10000));
     return await initiatePublish(0);
   } catch (error) {
-    console.log(error.message);
+    console.log(error);
     return { state: false };
   }
 };

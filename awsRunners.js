@@ -1,8 +1,8 @@
 const cron = require("node-cron");
 const axios = require("axios");
-const {
-  generateFbUserToken,
-} = require("./controllers/tokens/generateFbUserToken");
+// const {
+//   generateFbUserToken,
+// } = require("./controllers/tokens/generateFbUserToken");
 
 const indianTimezone = "Asia/Kolkata";
 // token generators
@@ -37,8 +37,7 @@ const indianTimezone = "Asia/Kolkata";
 cron.schedule(
   "55 15 * * *",
   async () => {
-    const a = await axios.get("https://autopost-1ah4.onrender.com");
-    console.log(a);
+    await axios.get("https://autopost-1ah4.onrender.com");
   },
   {
     timezone: indianTimezone,
@@ -136,4 +135,4 @@ cron.schedule(
   }
 );
 
-// Start the Express server
+// // Start the Express server

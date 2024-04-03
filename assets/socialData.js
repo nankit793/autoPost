@@ -15,6 +15,10 @@ const userData = {
       { name: "Reviving Soulz", id: revivingSoulz },
     ],
   },
+  testing: {
+    password: "testinghoribc",
+    apps: [{ name: "Reviving Soulz", id: revivingSoulz }],
+  },
 };
 
 const sparks = {

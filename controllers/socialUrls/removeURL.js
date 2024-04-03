@@ -8,11 +8,19 @@ const deleteURL = async (url, URLmodel, name) => {
     if (!element) {
       return { state: false, message: "This URL is not present" };
     }
-    if (
+
+    let shouldDelete = false;
+    if (element?.isImage || element?.isCarousel) {
+      if (!element.uploadedToFb && !element.uploadedToInstagram)
+        shouldDelete = true;
+    } else if (
       !element.uploadedToFb &&
       !element.uploadedToInstagram &&
       !element.uploadedToYoutube
-    ) {
+    )
+      shouldDelete = true;
+
+    if (shouldDelete) {
       doc = await URLmodel.findOneAndDelete({ url });
       const { oAuth2Client } = await validateOauth(name);
       const drive = google.drive({ version: "v3", auth: oAuth2Client });
