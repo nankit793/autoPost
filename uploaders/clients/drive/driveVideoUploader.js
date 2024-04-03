@@ -4,7 +4,7 @@ const stream = require("stream");
 async function uploadtVideoToDrive(url, drive) {
   try {
     const videoBuffer = await downloadMedia(url);
-    const driveFileId = await uploadToDrive(videoBuffer.data.data, drive);
+    const driveFileId = await uploadToDrive(videoBuffer.data, drive);
     return { state: true, driveFileId };
   } catch (error) {
     return { state: false, message: "Contact developer" };
