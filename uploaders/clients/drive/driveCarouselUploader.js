@@ -33,13 +33,16 @@ async function driveCarouselUploader(posts, drive) {
     if (posts?.length === 0) {
       return { state: false, message: "Post not found" };
     }
+
     const folderId = await createFolder(drive);
 
     if (folderId) {
       let i = 0;
       for (const post of posts) {
         // Create folder for the carousel post
-        const imageUrl = post.download_link;
+        // const imageUrl = post.download_link;
+        const imageUrl = post?.url;
+
         const filename = `${i + 1}.jpeg`;
         i = i + 1;
         // Save image to Google Drive inside the created folder

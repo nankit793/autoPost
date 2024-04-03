@@ -1,4 +1,5 @@
-const instagramDl = require("@sasmeee/igdl");
+// const instagramDl = require("@sasmeee/igdl");
+const { ndown } = require("nayan-media-downloader");
 
 const checkReqs = async (mediaLinks) => {
   try {
@@ -29,21 +30,25 @@ const checkReqs = async (mediaLinks) => {
     } else if (mediaLinks.includes("instagram.com")) {
       isInstagram = true;
 
-      const links = await instagramDl(mediaLinks);
+      //   const links = await instagramDl(mediaLinks);
 
       if (mediaLinks.includes("/reel/")) {
-        downURL = links[0]?.download_link;
+        let links = await ndown(mediaLinks);
+        // downURL = links[0]?.download_link;
+        downURL = links?.data[0]?.url;
         isReel = true;
       }
-      if (mediaLinks.includes("/p/")) {
-        if (links.length > 1) {
-          downURL = links;
-          isCarousel = true;
-        } else {
-          downURL = links[0]?.download_link;
-          isImage = true;
-        }
-      }
+      // if (mediaLinks.includes("/p/")) {
+      //   if (links?.data?.length > 1) {
+      //     // downURL = links;
+      //     downURL = links?.data;
+      //     isCarousel = true;
+      //   } else {
+      //     // downURL = links[0]?.download_link;
+      //     downURL = links?.data[0]?.url;
+      //     isImage = true;
+      //   }
+      // }
     } else if (mediaLinks.includes("youtube.com")) {
       isYoutube = true;
     }
@@ -53,7 +58,7 @@ const checkReqs = async (mediaLinks) => {
     ) {
       return {
         state: false,
-        message: "Please upload only Reel or Image",
+        message: "Please upload only Reel",
         isFb,
         isInstagram,
         isYoutube,
@@ -78,6 +83,7 @@ const checkReqs = async (mediaLinks) => {
       message: "Success",
     };
   } catch (error) {
+    console.log(error.message);
     return { state: false, message: "Error occured, maybe media link is bad" };
   }
 };

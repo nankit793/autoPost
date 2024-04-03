@@ -49,7 +49,7 @@ const fbVideoUpload = async (
       return { state: false };
     }
     const { video_id, upload_url } = initiateUploadResponse.data;
-    console.log(video_id, upload_url, "hsklds");
+    console.log(video_id, upload_url);
     const headers = {
       Authorization: `OAuth ${pageAccessToken}`,
       file_url,
@@ -58,7 +58,7 @@ const fbVideoUpload = async (
     const uploadVideo = await axios.post(upload_url, null, {
       headers: headers,
     });
-    console.log(uploadVideo, "hsklds");
+
     if (uploadVideo.status !== 200) {
       return { state: false };
     }
@@ -87,7 +87,7 @@ const fbVideoUpload = async (
     await new Promise((resolve) => setTimeout(resolve, 10000));
     return await initiatePublish(0);
   } catch (error) {
-    console.log(error.message);
+    console.log(error);
     return { state: false };
   }
 };
