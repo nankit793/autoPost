@@ -6,17 +6,21 @@ const ffmpeg = require("fluent-ffmpeg");
 ffmpeg.setFfmpegPath(ffmpegPath);
 
 function deleteFolderContents(folderPath) {
-  if (fs.existsSync(folderPath)) {
-    fs.readdirSync(folderPath).forEach((file) => {
-      const curPath = path.join(folderPath, file);
-      if (fs.lstatSync(curPath).isDirectory()) {
-        // Recursive call for directories
-        deleteFolderRecursive(curPath);
-      } else {
-        // Delete file
-        fs.unlinkSync(curPath);
-      }
-    });
+  try {
+    if (fs.existsSync(folderPath)) {
+      fs.readdirSync(folderPath).forEach((file) => {
+        const curPath = path.join(folderPath, file);
+        if (fs.lstatSync(curPath).isDirectory()) {
+          // Recursive call for directories
+          deleteFolderRecursive(curPath);
+        } else {
+          // Delete file
+          fs.unlinkSync(curPath);
+        }
+      });
+    }
+  } catch (error) {
+    return;
   }
 }
 
@@ -69,6 +73,13 @@ async function trimVideoIfNeeded(mediaFilePath) {
   });
 }
 
+function fileExists(filePath) {
+  try {
+    return fs.statSync(filePath).isFile();
+  } catch (err) {
+    return false;
+  }
+}
 // Function to upload the video to YouTube
 async function uploadVideoToYouTube(
   videoFilePath,
@@ -78,7 +89,11 @@ async function uploadVideoToYouTube(
   tags
 ) {
   try {
-    const fileSize = fs.statSync(videoFilePath).size;
+    const fileExists = fileExists(videoFilePath);
+    if (!fileExists) {
+      console.log("file does not exist");
+      return { state: false };
+    }
     const youtube = youtubeClient;
     return await new Promise(async (resolve, reject) => {
       youtube.videos.insert(
