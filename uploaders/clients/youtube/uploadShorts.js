@@ -88,7 +88,7 @@ async function uploadVideoToYouTube(
   tags
 ) {
   try {
-    const fileExists = fileExists(videoFilePath);
+    const fileExists = fs.statSync(videoFilePath).isFile();
     if (!fileExists) {
       console.log("file does not exist");
       return { state: false };
