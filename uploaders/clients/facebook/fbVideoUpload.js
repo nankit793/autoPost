@@ -18,13 +18,13 @@ const publishReel = async (
     const publishVideo = await axios.post(publishBase, null, {
       headers: headers,
     });
-    if (publishVideo.status !== 200) {
-      return { state: false };
-    } else {
+    if (publishVideo.status === 200) {
       // update mongo
       dbDoc.uploadedToFb = true;
       await dbDoc.save();
       return { state: true };
+    } else {
+      return { state: false };
     }
   } catch (error) {
     console.log("Try: ", uploadIteration, error.message, "posting in FB");

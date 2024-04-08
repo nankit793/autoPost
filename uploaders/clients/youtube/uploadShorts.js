@@ -4,23 +4,26 @@ const path = require("path");
 const ffmpegPath = require("@ffmpeg-installer/ffmpeg").path;
 const ffmpeg = require("fluent-ffmpeg");
 ffmpeg.setFfmpegPath(ffmpegPath);
+// const fileExists = (filePath) => {
+//   try {
+//     return
+//   } catch (err) {
+//     return false;
+//   }
+// };
 
 function deleteFolderContents(folderPath) {
-  try {
-    if (fs.existsSync(folderPath)) {
-      fs.readdirSync(folderPath).forEach((file) => {
-        const curPath = path.join(folderPath, file);
-        if (fs.lstatSync(curPath).isDirectory()) {
-          // Recursive call for directories
-          deleteFolderRecursive(curPath);
-        } else {
-          // Delete file
-          fs.unlinkSync(curPath);
-        }
-      });
-    }
-  } catch (error) {
-    return;
+  if (fs.existsSync(folderPath)) {
+    fs.readdirSync(folderPath).forEach((file) => {
+      const curPath = path.join(folderPath, file);
+      if (fs.lstatSync(curPath).isDirectory()) {
+        // Recursive call for directories
+        deleteFolderRecursive(curPath);
+      } else {
+        // Delete file
+        fs.unlinkSync(curPath);
+      }
+    });
   }
 }
 
@@ -33,11 +36,13 @@ async function downloadVideo(videoUrl, mediaFilePath) {
         return { state: false };
       }
     });
+
     const response = await axios({
       method: "GET",
       url: videoUrl,
       responseType: "stream",
     });
+
     response.data.pipe(fs.createWriteStream(outputPath));
     return new Promise((resolve, reject) => {
       response.data.on("end", () => {
@@ -89,8 +94,8 @@ async function uploadVideoToYouTube(
 ) {
   try {
     const fileExists = fs.statSync(videoFilePath).isFile();
+
     if (!fileExists) {
-      console.log("file does not exist");
       return { state: false };
     }
     const youtube = youtubeClient;
@@ -126,6 +131,7 @@ async function uploadVideoToYouTube(
       );
     });
   } catch (error) {
+    console.log(error.message);
     return { state: false };
   }
 }
