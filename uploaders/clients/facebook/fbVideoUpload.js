@@ -18,16 +18,17 @@ const publishReel = async (
     const publishVideo = await axios.post(publishBase, null, {
       headers: headers,
     });
-    if (publishVideo.status !== 200) {
-      return { state: false };
-    } else {
+    if (publishVideo.status === 200) {
       // update mongo
       dbDoc.uploadedToFb = true;
       await dbDoc.save();
       return { state: true };
+    } else {
+      return { state: false };
     }
   } catch (error) {
     console.log("Try: ", uploadIteration, error.message, "posting in FB");
+    return { state: false };
   }
 };
 const fbVideoUpload = async (
@@ -86,7 +87,7 @@ const fbVideoUpload = async (
     await new Promise((resolve) => setTimeout(resolve, 10000));
     return await initiatePublish(0);
   } catch (error) {
-    console.log(error.message);
+    console.log(error?.response?.data, error.message);
     return { state: false };
   }
 };

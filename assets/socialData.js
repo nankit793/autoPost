@@ -15,7 +15,7 @@ const userData = {
       { name: "Reviving Soulz", id: revivingSoulz },
     ],
   },
-  missoginie: {
+  dhruv: {
     password: "missoginie@123",
     apps: [{ name: "missoginie", id: missoginie }],
   },
@@ -83,8 +83,8 @@ let reditoIgUserId = "17841464791716146";
 // missoginie
 const MissoGinieModel = require("../models/missoginie/URLmodel");
 let missoginiePageAccessToken =
-  "EAAK69zoePbMBOZCStAKURwDZBZBUKmGKnebB50OUWmtKwZAxZBIe2TLWXNftswuvsdNveqJK0FdvYcW82OpzV4LwJsd8vW3eyasZClQuXlkSN9DZAaIVzMbAVhAZCmXvcdaVJcbZBtrAgWMTAATryciuKvZCHXQ6THS1RevPSKRJEZCr3EuPRZAI9nea9BBOIm6tpr8iUjnBfATwPNjZAfg4ZD";
-let missoginieFbUserId = "278856668633727";
+  "EAAP1DGhkaE8BO4J8zImzhylkIrLTdkDD5wq8NifwZCCtZAn1ygP2idw1IBZARM6YZBxlBFwzcekgsiZB746TzUz7ZAa0H9eZCLajUyuwvP9uZCpRIl2ZC3ztSA69tsUvw0skrIorCiPVteB2wzzc9RtqF6bESZBDIfZCzH1UKFZCFHiSLDEZCJBaInPv5k498PyBxh5ndXDFhZBZCmMQ5IVNZBQZD";
+let missoginieFbUserId = "234490476423553";
 let missoginieIgUserId = "17841465892488198";
 
 const instances = {

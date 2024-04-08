@@ -4,36 +4,46 @@ const path = require("path");
 const ffmpegPath = require("@ffmpeg-installer/ffmpeg").path;
 const ffmpeg = require("fluent-ffmpeg");
 ffmpeg.setFfmpegPath(ffmpegPath);
+// const fileExists = (filePath) => {
+//   try {
+//     return
+//   } catch (err) {
+//     return false;
+//   }
+// };
 
 function deleteFolderContents(folderPath) {
-  if (fs.existsSync(folderPath)) {
-    fs.readdirSync(folderPath).forEach((file) => {
-      const curPath = path.join(folderPath, file);
-      if (fs.lstatSync(curPath).isDirectory()) {
-        // Recursive call for directories
-        deleteFolderRecursive(curPath);
-      } else {
-        // Delete file
-        fs.unlinkSync(curPath);
-      }
-    });
+  try {
+    if (fs.existsSync(folderPath)) {
+      fs.readdirSync(folderPath).forEach((file) => {
+        const curPath = path.join(folderPath, file);
+        if (fs.lstatSync(curPath).isDirectory()) {
+          // Recursive call for directories
+          deleteFolderRecursive(curPath);
+        } else {
+          // Delete file
+          fs.unlinkSync(curPath);
+        }
+      });
+    }
+  } catch (error) {
+    return;
   }
 }
 
 async function downloadVideo(videoUrl, mediaFilePath) {
   try {
     const outputPath = path.join(mediaFilePath, "downloaded.mp4");
-
-    const response = await axios({
-      method: "GET",
-      url: videoUrl,
-      responseType: "stream",
-    });
     await fs.mkdir(mediaFilePath, { recursive: true }, (err) => {
       if (err) {
         console.log("error");
         return { state: false };
       }
+    });
+    const response = await axios({
+      method: "GET",
+      url: videoUrl,
+      responseType: "stream",
     });
     response.data.pipe(fs.createWriteStream(outputPath));
     return new Promise((resolve, reject) => {
@@ -78,7 +88,11 @@ async function uploadVideoToYouTube(
   tags
 ) {
   try {
-    const fileSize = fs.statSync(videoFilePath).size;
+    const fileExists = fs.statSync(videoFilePath).isFile();
+
+    if (!fileExists) {
+      return { state: false };
+    }
     const youtube = youtubeClient;
     return await new Promise(async (resolve, reject) => {
       youtube.videos.insert(
@@ -112,6 +126,7 @@ async function uploadVideoToYouTube(
       );
     });
   } catch (error) {
+    console.log(error.message);
     return { state: false };
   }
 }
@@ -127,7 +142,7 @@ const uploadShorts = async (
   try {
     await deleteFolderContents(mediaFilePath);
     const download = await downloadVideo(videoUrl, mediaFilePath);
-
+    console.log("downloaded");
     if (!download.state) {
       return { state: false };
     }

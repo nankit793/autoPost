@@ -7,7 +7,6 @@ const PORT = 3000;
 const cors = require("cors");
 require("./appsRunner");
 require("./awsRunners");
-require("./nodeparser");
 
 // Google Drive API configuration
 app.use(
@@ -16,16 +15,16 @@ app.use(
   })
 );
 
-const corsOptions = {
-  origin: "http://localhost:3001", // Allow only requests from this origin
-  methods: ["GET", "POST"], // Allow only GET and POST requests
-  allowedHeaders: ["Content-Type", "Authorization"], // Allow only specific headers
-};
 // const corsOptions = {
-//   origin: "https://autoposting.netlify.app", // Allow only requests from this origin
+//   origin: "http://localhost:3001", // Allow only requests from this origin
 //   methods: ["GET", "POST"], // Allow only GET and POST requests
 //   allowedHeaders: ["Content-Type", "Authorization"], // Allow only specific headers
 // };
+const corsOptions = {
+  origin: "https://autoposting.netlify.app", // Allow only requests from this origin
+  methods: ["GET", "POST"], // Allow only GET and POST requests
+  allowedHeaders: ["Content-Type", "Authorization"], // Allow only specific headers
+};
 // Use CORS middleware with options
 app.use(cors(corsOptions));
 app.use(bodyParser.json());

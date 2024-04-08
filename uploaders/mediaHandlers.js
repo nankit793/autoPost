@@ -11,6 +11,10 @@ const {
 const { randomTitle, randomTags } = require("../controllers/randomPostData");
 const { instances } = require("../assets/socialData");
 const { deleteMany } = require("../controllers/socialUrls/deleteMany");
+const {
+  instaCarouselUploader,
+} = require("./clients/instagram/InstaCarousalUpload");
+const { fbCarouselUpload } = require("./clients/facebook/fbCarouselUpload");
 
 const uploadToInsta = async (notUploadedUrls, title, tags, instance) => {
   const { token } = await returnFbAccessToken(instance.name);
@@ -26,24 +30,40 @@ const uploadToInsta = async (notUploadedUrls, title, tags, instance) => {
     title = result?.postTitle || title;
     const fileIdOnDrive = result?.driveFileId;
     const downloadURL = `https://drive.usercontent.google.com/u/2/uc?id=${fileIdOnDrive}`;
+    tags.unshift(title);
+    const caption = `${tags
+      .join("%20")
+      .replaceAll("#", "%23")
+      .replaceAll(" ", "%20")}`;
     let url = "";
     if (result?.isImage) {
-      url = baseURL + `?image_url=${downloadURL}&access_token=${accessToken}`;
-    } else if (result?.isReel) {
-      tags.unshift(title);
       url =
         baseURL +
-        `?video_url=${downloadURL}&access_token=${accessToken}&media_type=REELS&caption=${tags
-          .join("%20")
-          .replaceAll("#", "%23")
-          .replaceAll(" ", "%20")}`;
+        `?image_url=${downloadURL}&access_token=${accessToken}&caption=${caption}`;
+    } else if (result?.isReel) {
+      url =
+        baseURL +
+        `?video_url=${downloadURL}&access_token=${accessToken}&media_type=REELS&caption=${caption}`;
     }
-    return await instaMediaUploader(
-      instance.IgUserId,
-      result,
-      accessToken,
-      url
-    );
+    if (result?.isImage || result?.isReel) {
+      return await instaMediaUploader(
+        instance.IgUserId,
+        result,
+        accessToken,
+        url
+      );
+    } else if (result?.isCarousel) {
+      url = baseURL + `?access_token=${accessToken}`;
+      return await instaCarouselUploader(
+        instance.IgUserId,
+        result,
+        accessToken,
+        fileIdOnDrive,
+        instance,
+        url,
+        caption
+      );
+    }
   }
   return { state: false };
 };
@@ -57,7 +77,7 @@ const uploadToFB = async (notUploadedUrls, title, tags, instance) => {
     title = result?.postTitle || title;
     const fileIdOnDrive = result?.driveFileId;
     if (result?.isImage) {
-      let url = `https://graph.facebook.com/v19.0/${instance.fbUserId}/photos?url=https://drive.usercontent.google.com/u/2/uc?id=${fileIdOnDrive}&access_token=${instance.pageAccessToken}`;
+      let url = `https://graph.facebook.com/v19.0/${instance.fbUserId}/photos?url=https://drive.usercontent.google.com/u/2/uc?id=${fileIdOnDrive}&access_token=${instance.pageAccessToken}&message=${title}`;
       return await fbImageUplaod(result, url);
     } else if (result?.isReel) {
       let url = `https://drive.usercontent.google.com/u/2/uc?id=${fileIdOnDrive}`;
@@ -68,6 +88,17 @@ const uploadToFB = async (notUploadedUrls, title, tags, instance) => {
         tags,
         title,
         result
+      );
+    } else if (result?.isCarousel) {
+      let url = `https://graph.facebook.com/v19.0/${instance.fbUserId}`;
+      return await fbCarouselUpload(
+        instance.fbUserId,
+        instance.pageAccessToken,
+        url,
+        tags,
+        title,
+        result,
+        instance
       );
     }
     return { state: false };
@@ -187,7 +218,6 @@ const removeURLS = async () => {
   try {
     for (let key in instances) {
       if (instances[key].active) {
-        console.log(instances[key]);
         await deleteMany(instances[key].name, instances[key].model);
       }
     }

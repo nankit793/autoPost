@@ -2,10 +2,10 @@ const axios = require("axios");
 
 const fbImageUplaod = async (dbDoc, url) => {
   try {
-    await axios
+    return await axios
       .post(url)
       .then(async (response) => {
-        mongoID = result.id;
+        mongoID = response.id;
         dbDoc.uploadedToFb = true;
         await dbDoc.save();
         return { state: true };
