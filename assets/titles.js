@@ -17,15 +17,14 @@ const reditoTitles = [
   "What are your thoughts?",
   "Can it be any better?",
   "Reddit Story",
-  "#redditamazing",
   "What's happening here?",
 ];
 const missoginieTitles = [
   "What would you do?",
   "What are your thoughts?",
   "Can it be any better?",
-  "Reddit Story",
-  "#redditamazing",
+  "What about this?",
+  "Whaatt???",
   "What's happening here?",
 ];
 module.exports = {
