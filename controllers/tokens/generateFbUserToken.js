@@ -1,8 +1,22 @@
 const axios = require("axios");
 const userTokenModel = require("../../models/userTokens");
 const { returnFbAccessToken } = require("./returnFbUserToken");
+const { instances } = require("../../assets/socialData");
 
-const generateFbUserToken = async (appSecret, appID, pageName) => {
+const generateFbUserToken = async () => {
+  for (let key in instances) {
+    if (instances[key].active) {
+      console.log("Updating FB Access tokens for: ", instances[key].name);
+      await callAndUpdateToken(
+        instances[key].appSecret,
+        instances[key].appID,
+        instances[key].name
+      );
+    }
+  }
+};
+
+const callAndUpdateToken = async (appSecret, appID, pageName) => {
   try {
     const { token, state } = await returnFbAccessToken(pageName);
     if (!token && !state) {
