@@ -220,9 +220,7 @@ const initiateUploader = async () => {
 const removeURLS = async () => {
   try {
     for (let key in instances) {
-      if (instances[key].active) {
-        await deleteMany(instances[key].name, instances[key].model);
-      }
+      await deleteMany(instances[key].name, instances[key].model);
     }
   } catch (error) {
     return;

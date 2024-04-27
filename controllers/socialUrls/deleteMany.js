@@ -3,27 +3,32 @@ const { validateOauth } = require("../../0Authtokens/validateOAuth");
 const { deleteDocsFromDrive } = require("../deleteDocsFromDrive");
 
 const deleteMany = async (name, URLmodel) => {
-    try {
-        const documentsToDelete = await URLmodel.find({
-            uploadedToFb: true,
-            uploadedToInstagram: true,
-            uploadedToYoutube: true,
-        })
+  try {
+    const query = {
+      $or: [
+        { uploadedToInstagram: true },
+        { uploadedToYoutube: true },
+        { uploadedToFb: true },
+      ],
+    };
 
-        const results = await URLmodel.deleteMany({
-            uploadedToFb: true,
-            uploadedToInstagram: true,
-            uploadedToYoutube: true,
-        });
+    const documentsToDelete = await URLmodel.find(query);
 
-        const { oAuth2Client } = await validateOauth(name)
-        const drive = google.drive({ version: 'v3', auth: oAuth2Client });
-        await deleteDocsFromDrive(documentsToDelete, drive)
-        return { state: true, message: `${results.deletedCount || ""} URLs removed` }
+    const results = await URLmodel.deleteMany(query);
 
-    } catch (error) {
-        return { state: false, message: error.message || "Server error, contact developer" }
-    }
-}
+    const { oAuth2Client } = await validateOauth(name);
+    const drive = google.drive({ version: "v3", auth: oAuth2Client });
+    await deleteDocsFromDrive(documentsToDelete, drive);
+    return {
+      state: true,
+      message: `${results.deletedCount || ""} URLs removed`,
+    };
+  } catch (error) {
+    return {
+      state: false,
+      message: error.message || "Server error, contact developer",
+    };
+  }
+};
 
-module.exports = { deleteMany }
+module.exports = { deleteMany };

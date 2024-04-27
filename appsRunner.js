@@ -26,7 +26,7 @@ cron.schedule(
 cron.schedule(
   "0 5 * * *",
   async () => {
-    // await removeURLS();
+    await removeURLS();
   },
   {
     timezone: indianTimezone,
