@@ -26,6 +26,7 @@ const processUrlRequest = async (params) => {
       drive,
       title,
       isCarousel,
+      tags,
     } = params;
 
     const doc = await URLmodel.findOne({ url: mediaLinks });
@@ -71,6 +72,7 @@ const processUrlRequest = async (params) => {
       carouselError: carousalError,
       isCarousel,
       postTitle: title,
+      postTags: tags,
     });
 
     await newUrl.save();

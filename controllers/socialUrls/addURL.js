@@ -3,7 +3,7 @@ const { checkReqs } = require("../urlValidator");
 const { processUrlRequest } = require("../procssUrlRequest");
 const { validateOauth } = require("../../0Authtokens/validateOAuth");
 
-const addURL = async (mediaLinks, name, URLmodel, title) => {
+const addURL = async (mediaLinks, name, URLmodel, title, tags) => {
   let {
     state,
     message,
@@ -37,6 +37,7 @@ const addURL = async (mediaLinks, name, URLmodel, title) => {
       drive,
       title,
       isCarousel,
+      tags,
     };
     const processReq = await processUrlRequest(params);
 

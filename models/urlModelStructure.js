@@ -50,5 +50,6 @@ const URlmodelStruc = {
   },
   // tags: {type: Array, default: [] },
   postTitle: { type: String },
+  postTags: { type: String },
 };
 module.exports = { URlmodelStruc };

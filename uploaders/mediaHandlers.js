@@ -28,6 +28,9 @@ const uploadToInsta = async (notUploadedUrls, title, tags, instance) => {
 
   if (result) {
     title = result?.postTitle || title;
+    if (result?.postTags !== "") {
+      tags = result?.postTags?.split(",");
+    }
     const fileIdOnDrive = result?.driveFileId;
     const downloadURL = `https://drive.usercontent.google.com/u/2/uc?id=${fileIdOnDrive}`;
     tags.unshift(title);
