@@ -13,15 +13,10 @@ cron.schedule(
     timezone: indianTimezone,
   }
 );
-cron.schedule(
-  "0 22 * * *",
-  async () => {
-    await initiateUploader();
-  },
-  {
-    timezone: indianTimezone,
-  }
-);
+initiateUploader();
+cron.schedule("0 22 * * *", async () => {}, {
+  timezone: indianTimezone,
+});
 
 cron.schedule(
   "0 5 * * *",

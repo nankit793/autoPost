@@ -26,8 +26,9 @@ async function processAuthTokens(pageName, oAuth2Client) {
 
     return OAuthTokenDoc;
   } catch (error) {
-    console.error("Error refreshing tokens:", error);
-    throw error;
+    console.log(error.message);
+    // console.error("Error refreshing tokens:", error);
+    throw "error";
   }
 }
 

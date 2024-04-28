@@ -124,7 +124,7 @@ async function uploadVideoToYouTube(
             console.error("Upload failed:", err.message);
             reject({ state: false });
           }
-          dbDoc.uploadedToYoutube = true;
+          // dbDoc.uploadedToYoutube = true;
           await dbDoc.save();
           resolve({ state: true });
         }
