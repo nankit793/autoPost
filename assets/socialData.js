@@ -2,6 +2,24 @@ const revivingSoulz = "1584356593";
 const animeto = "1231454352";
 const redito = "1357843254";
 const missoginie = "1923844210";
+const catsoverhumanity = "1482372347";
+
+const sparks = {
+  revivingSoulz,
+  animeto,
+  redito,
+  missoginie,
+  catsoverhumanity,
+};
+
+const activeApps = {
+  [sparks.revigingSoulz]: false,
+  [sparks.animeto]: false,
+  [sparks.redito]: false,
+  [sparks.missoginie]: false,
+  [sparks.catsoverhumanity]: true,
+};
+
 const userData = {
   "ritikbkl152@gmail.com": {
     password: "password@123",
@@ -15,6 +33,13 @@ const userData = {
       { name: "Reviving Soulz", id: revivingSoulz },
     ],
   },
+  ankit: {
+    password: "ankitChamp@123",
+    apps: [
+      { name: "Redito", id: redito },
+      { name: "Cats Over Humanity", id: catsoverhumanity },
+    ],
+  },
   testing: {
     password: "testinghoribc",
     apps: [{ name: "Reviving Soulz", id: revivingSoulz }],
@@ -23,13 +48,6 @@ const userData = {
     password: "missoginie@123",
     apps: [{ name: "missoginie", id: missoginie }],
   },
-};
-
-const sparks = {
-  revivingSoulz,
-  animeto,
-  redito,
-  missoginie,
 };
 
 class SocialData {
@@ -103,6 +121,15 @@ let missoginieIgUserId = "17841465892488198";
 let missoginieFBAppId = "1113858569955407";
 let missoginieFBAppSecret = "ff6ca692f2e596232c52d7faccfbac73";
 
+// catsOverHumanity
+const COHmodel = require("../models/catsoverhumanity/URLmodel");
+let COHPageAccessToken =
+  "EAAF7ZB4GTmqcBO8L95gYb6qSAGTftKZAZBYbE7FYJhBWGNGi3InZCLOzHM1ZAWAZCZCq2Vgvc4giZCVzM5q04TMH37K8zl5m5KqIxDYWf1Bq52ZBZASG7IhhABpHKHcx30L2HbZBxFVrOcXsMd3x0IwS1tf0OG4zXZC924dzmzQ10OAlgMSqplHnfHQ6JB1dff1UWPdyMhGe3Dw28Qh7KTEZD";
+let COHFbUserId = "260287647174927";
+let COHIgUserId = "17841466425851902";
+let COHFBAppId = "417795117652647";
+let COHFBAppSecret = "a3f1461dd9bc4a1a93c03a4726c09a62";
+
 const instances = {
   [sparks.revivingSoulz]: new SocialData(
     revivingSoulzIgUserId,
@@ -112,7 +139,7 @@ const instances = {
     UrlModelRevSoulz,
     revivingSoulzTiles,
     animetoTags,
-    false,
+    activeApps[sparks.revivingSoulz],
     revivingSoulzFBAppSecret,
     revivingSoulzFBAppID
   ),
@@ -124,7 +151,7 @@ const instances = {
     AnimetoModel,
     animetoTitles,
     animetoTags,
-    true,
+    activeApps[sparks.animeto],
     animeFBAppSecret,
     animeFBAppId
   ),
@@ -136,7 +163,7 @@ const instances = {
     ReditoModel,
     reditoTitles,
     reditoTags,
-    true,
+    activeApps[sparks.redito],
     reditoFBAppSecret,
     reditoFBAppId
   ),
@@ -148,9 +175,21 @@ const instances = {
     MissoGinieModel,
     missoginieTitles,
     missoginieTags,
-    true,
+    activeApps[sparks.missoginie],
     missoginieFBAppSecret,
     missoginieFBAppId
+  ),
+  [sparks.catsoverhumanity]: new SocialData(
+    COHIgUserId,
+    COHFbUserId,
+    COHPageAccessToken,
+    "catsoverhumanity",
+    COHmodel,
+    missoginieTitles,
+    missoginieTags,
+    activeApps[sparks.catsoverhumanity],
+    COHFBAppSecret,
+    COHFBAppId
   ),
 };
 module.exports = { instances, userData };
