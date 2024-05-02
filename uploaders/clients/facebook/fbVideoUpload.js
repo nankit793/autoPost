@@ -62,7 +62,7 @@ const fbVideoUpload = async (
     if (uploadVideo.status !== 200) {
       return { state: false };
     }
-    tags.unshift(title);
+    tags?.unshift(title);
     const initiatePublish = async (n) => {
       if (n > 10) {
         return { state: false };

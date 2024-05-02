@@ -28,12 +28,12 @@ const uploadToInsta = async (notUploadedUrls, title, tags, instance) => {
 
   if (result) {
     title = result?.postTitle || title;
-    if (result?.postTags !== "") {
+    if (result?.postTags && result?.postTags !== "") {
       tags = result?.postTags?.split(",");
     }
     const fileIdOnDrive = result?.driveFileId;
     const downloadURL = `https://drive.usercontent.google.com/u/2/uc?id=${fileIdOnDrive}`;
-    tags.unshift(title);
+    tags?.unshift(title);
     const caption = `${tags
       .join("%20")
       .replaceAll("#", "%23")
@@ -49,6 +49,7 @@ const uploadToInsta = async (notUploadedUrls, title, tags, instance) => {
         `?video_url=${downloadURL}&access_token=${accessToken}&media_type=REELS&caption=${caption}`;
     }
     if (result?.isImage || result?.isReel) {
+      console.log(url);
       return await instaMediaUploader(
         instance.IgUserId,
         result,

@@ -14,9 +14,9 @@ const sparks = {
 
 const activeApps = {
   [sparks.revigingSoulz]: false,
-  [sparks.animeto]: false,
-  [sparks.redito]: false,
-  [sparks.missoginie]: false,
+  [sparks.animeto]: true,
+  [sparks.redito]: true,
+  [sparks.missoginie]: true,
   [sparks.catsoverhumanity]: true,
 };
 
@@ -31,6 +31,8 @@ const userData = {
       { name: "Animeto", id: animeto },
       { name: "Redito", id: redito },
       { name: "Reviving Soulz", id: revivingSoulz },
+      { name: "Cats Over Humanity", id: catsoverhumanity },
+      { name: "missoginie", id: missoginie },
     ],
   },
   ankit: {
