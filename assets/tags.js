@@ -173,4 +173,34 @@ const missoginieTags = [
   "#funnymemes",
   "#memesarelife",
 ];
-module.exports = { animetoTags, revivingSoulzTags, reditoTags, missoginieTags };
+
+const catsOverHumanityTags = [
+  "#cats",
+  "#catsofinstagram",
+  "#catstagram",
+  "#cats_of_instagram",
+  "#catsagram",
+  "#cats_of_world",
+  "#catsofinsta",
+  "#catsofig",
+  "#catsoftheworld",
+  "#cats_of_world",
+  "#catscatscats",
+  "#catsofworld",
+  "#catsbelike",
+  "#catsbeingcats",
+  "#catsby90",
+  "#catsb",
+  "#catsbeingcute",
+  "#catsclub",
+  "#catscircus",
+  "#catsconnect",
+  "#catscute",
+];
+module.exports = {
+  animetoTags,
+  revivingSoulzTags,
+  reditoTags,
+  missoginieTags,
+  catsOverHumanityTags,
+};

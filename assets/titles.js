@@ -27,9 +27,18 @@ const missoginieTitles = [
   "Whaatt???",
   "What's happening here?",
 ];
+const catsOverHumanityTitles = [
+  "cars",
+  "cars are crazy",
+  "why are they like this?",
+  "What about this?",
+  "Whaatt???",
+  "What's happening here?",
+];
 module.exports = {
   revivingSoulzTiles,
   animetoTitles,
   reditoTitles,
   missoginieTitles,
+  catsOverHumanityTitles,
 };

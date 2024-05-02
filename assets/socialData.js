@@ -79,12 +79,18 @@ class SocialData {
 }
 
 //generals
-const { animetoTags, reditoTags, missoginieTags } = require("../assets/tags");
+const {
+  animetoTags,
+  reditoTags,
+  missoginieTags,
+  catsOverHumanityTags,
+} = require("../assets/tags");
 const {
   revivingSoulzTiles,
   reditoTitles,
   animetoTitles,
   missoginieTitles,
+  catsOverHumanityTitles,
 } = require("./titles");
 
 //revigingSoulz
@@ -187,8 +193,8 @@ const instances = {
     COHPageAccessToken,
     "catsoverhumanity",
     COHmodel,
-    missoginieTitles,
-    missoginieTags,
+    catsOverHumanityTitles,
+    catsOverHumanityTags,
     activeApps[sparks.catsoverhumanity],
     COHFBAppSecret,
     COHFBAppId
